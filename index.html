@@ -156,7 +156,7 @@
   <div class="exp-header exp-header-centered">
     <div class="eyebrow reveal" style="justify-content:center">Experiencias</div>
 
-    <!-- ── NUEVO HEADING ANIMADO ── -->
+    <!-- ── HEADING ANIMADO ── -->
     <div class="exp-headline-wrap reveal d1" aria-label="Elige tu circuito">
       <div class="exp-type-line" id="exp-headline-line">
         <span class="exp-letter" data-delay="80">E</span>
@@ -189,7 +189,6 @@
         <div class="exp-num">01</div>
         <div class="exp-name">Trazada Perfecta</div>
         <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
-
       </div>
     </div>
     <div class="exp-circuit">
@@ -198,7 +197,6 @@
         <div class="exp-num">02</div>
         <div class="exp-name">Gestión de Neumáticos</div>
         <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
-
       </div>
     </div>
     <div class="exp-circuit">
@@ -207,10 +205,12 @@
         <div class="exp-num">03</div>
         <div class="exp-name">Carrera Bajo Presión</div>
         <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
-
       </div>
     </div>
   </div>
+
+  <!-- DOTS carrusel circuitos -->
+  <div class="exp-carousel-dots" aria-hidden="true"></div>
 
   <div class="media-strip reveal d2">
     <div class="media-ph">[ FOTO / VIDEO — SESIÓN ONBOARD ]</div>
@@ -285,6 +285,10 @@
     </div>
 
   </div>
+
+  <!-- DOTS carrusel programas -->
+  <div class="prog-carousel-dots" aria-hidden="true"></div>
+
 </section>
 
 <!-- ═══════ TECNOLOGIA ═══════ -->
@@ -471,7 +475,6 @@
   fitExpHeadline();
   window.addEventListener('resize', fitExpHeadline);
 
-  // Trigger letter animation when section enters viewport
   var triggered = false;
   var observer = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
