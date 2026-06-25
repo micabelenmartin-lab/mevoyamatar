@@ -335,61 +335,81 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeTimer = setTimeout(setupCarousels, 200);
   });
 
-  /* ── SIMULADOR REVEAL LENS ── */
+  /* ── SIMULADOR REVEAL ORGÁNICO ── */
   (function () {
-    const wrap       = document.getElementById('sim-wrap');
+    const wrap      = document.getElementById('sim-wrap');
     if (!wrap) return;
 
-    const lens       = document.getElementById('sim-lens');
-    const lensInner  = document.getElementById('sim-lens-inner');
-    const baseImg    = wrap.querySelector('.sim-base-img');
+    const lensInner = document.getElementById('sim-lens-inner');
+    if (!lensInner) return;
 
-    // Cursor puntito verde
-    const dot = document.createElement('div');
-    dot.className = 'sim-cursor';
-    wrap.appendChild(dot);
+    // ── Blob: 8 puntos en círculo, cada uno con ruido propio ──
+    const N = 8;          // cantidad de puntos del blob
+    const BASE_R  = 200;  // radio base en px
+    const NOISE_A = 60;   // amplitud del ruido por punto
+    const NOISE_S = 0.0008; // velocidad del ruido
 
-    const LENS_R = 130; // radio en px (mitad de 260px)
+    // Semillas aleatorias por punto para que cada uno oscile distinto
+    const seeds = Array.from({length: N}, () => Math.random() * 1000);
 
-    let rafId = null;
+    // Suavizado del centro del blob
     let targetX = 0, targetY = 0;
-    let currentX = 0, currentY = 0;
+    let cx = 0, cy = 0;
+    let rafId = null;
+    let inside = false;
 
     function lerp(a, b, t) { return a + (b - a) * t; }
 
-    function loop() {
-      // Suavizado igual al cursor del resto de la página
-      currentX = lerp(currentX, targetX, 0.12);
-      currentY = lerp(currentY, targetY, 0.12);
+    // Ruido suave sin librería: suma de senos con frecuencias distintas
+    function noise(t, seed) {
+      return (
+        Math.sin(t * 1.3 + seed) * 0.5 +
+        Math.sin(t * 2.7 + seed * 1.7) * 0.3 +
+        Math.sin(t * 0.6 + seed * 0.9) * 0.2
+      );
+    }
 
-      lens.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%,-50%)`;
-      dot.style.transform  = `translate(${currentX}px, ${currentY}px) translate(-50%,-50%)`;
+    function buildClipPath(x, y, t) {
+      const W = wrap.offsetWidth;
+      const H = wrap.offsetHeight;
+      // Normalizar a porcentajes para clip-path
+      const pts = [];
+      for (let i = 0; i < N; i++) {
+        const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
+        const r = BASE_R + noise(t, seeds[i]) * NOISE_A;
+        const px = x + Math.cos(angle) * r;
+        const py = y + Math.sin(angle) * r;
+        pts.push(`${(px / W * 100).toFixed(2)}% ${(py / H * 100).toFixed(2)}%`);
+      }
+      return `polygon(${pts.join(', ')})`;
+    }
 
-      // Mover foto6 dentro de la lupa para que coincida con la posición
-      const rect = wrap.getBoundingClientRect();
-      const imgW = baseImg.offsetWidth;
-      const imgH = baseImg.offsetHeight;
+    function loop(ts) {
+      const t = ts * NOISE_S;
 
-      // bg-position: queremos que el pixel (currentX, currentY) del wrapper
-      // quede centrado dentro de la lupa
-      const bpx = -(currentX - LENS_R);
-      const bpy = -(currentY - LENS_R);
+      cx = lerp(cx, targetX, 0.085);
+      cy = lerp(cy, targetY, 0.085);
 
-      lensInner.style.backgroundSize     = `${imgW}px ${imgH}px`;
-      lensInner.style.backgroundPosition = `${bpx}px ${bpy}px`;
+      lensInner.style.clipPath = buildClipPath(cx, cy, t);
 
       rafId = requestAnimationFrame(loop);
     }
 
-    wrap.addEventListener('mouseenter', () => {
+    wrap.addEventListener('mouseenter', (e) => {
+      inside = true;
+      const rect = wrap.getBoundingClientRect();
+      targetX = cx = e.clientX - rect.left;
+      targetY = cy = e.clientY - rect.top;
       rafId = requestAnimationFrame(loop);
     });
 
     wrap.addEventListener('mouseleave', () => {
+      inside = false;
       cancelAnimationFrame(rafId);
+      // Fade out lo maneja CSS (opacity transition en .sim-lens)
     });
 
-    wrap.addEventListener('mousemove', e => {
+    wrap.addEventListener('mousemove', (e) => {
       const rect = wrap.getBoundingClientRect();
       targetX = e.clientX - rect.left;
       targetY = e.clientY - rect.top;
