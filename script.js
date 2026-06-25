@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
       navToggle.setAttribute('aria-expanded', isOpen);
     });
 
-    // Cerrar menú al hacer click en un link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('open');
@@ -216,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ══════════════════════════════
      CARRUSEL GENÉRICO
-     Funciona para .exp-circuits y .prog-cards en mobile
   ══════════════════════════════ */
   function initCarousel(track, dotsContainer) {
     if (!track) return;
@@ -227,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDragging = false;
     let dragOffset = 0;
 
-    // Crear dots
     if (dotsContainer) {
       items.forEach((_, i) => {
         const dot = document.createElement('button');
@@ -252,7 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
       updateDots();
     }
 
-    // Touch / drag
     track.addEventListener('touchstart', e => {
       startX = e.touches[0].clientX;
       isDragging = true;
@@ -274,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
       dragOffset = 0;
     });
 
-    // Mouse drag (desktop fallback)
     track.addEventListener('mousedown', e => {
       startX = e.clientX;
       isDragging = true;
@@ -298,15 +293,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* Activar carruseles solo en mobile */
   function setupCarousels() {
     const isMobile = window.innerWidth <= 768;
 
-    /* — Circuitos — */
-    const expTrack = document.querySelector('.exp-circuits');
-    const expDots  = document.querySelector('.exp-carousel-dots');
-
-    /* — Programas — */
+    const expTrack  = document.querySelector('.exp-circuits');
+    const expDots   = document.querySelector('.exp-carousel-dots');
     const progTrack = document.querySelector('.prog-cards');
     const progDots  = document.querySelector('.prog-carousel-dots');
 
@@ -318,11 +309,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       expTrack  && expTrack.classList.remove('carousel-track');
       progTrack && progTrack.classList.remove('carousel-track');
-      // Reset posición
       [expTrack, progTrack].forEach(t => {
         if (t) { t.style.transform = ''; t.style.transition = ''; }
       });
-      // Limpiar dots
       [expDots, progDots].forEach(d => { if (d) d.innerHTML = ''; });
     }
   }
@@ -335,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeTimer = setTimeout(setupCarousels, 200);
   });
 
-  /* ── SIMULADOR REVEAL ORGÁNICO ── */
+  /* ── SIMULADOR REVEAL ORGÁNICO — efecto agua ── */
   (function () {
     const wrap      = document.getElementById('sim-wrap');
     if (!wrap) return;
@@ -343,36 +332,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const lensInner = document.getElementById('sim-lens-inner');
     if (!lensInner) return;
 
-    // ── Blob: 8 puntos en círculo, cada uno con ruido propio ──
-    const N = 8;          // cantidad de puntos del blob
-    const BASE_R  = 200;  // radio base en px
-    const NOISE_A = 60;   // amplitud del ruido por punto
-    const NOISE_S = 0.0008; // velocidad del ruido
+    // ── Blob acuático: más puntos, radio menor, ruido suave y lento ──
+    const N       = 14;         // más puntos → contorno más suave y orgánico
+    const BASE_R  = 130;        // más chico que antes (era 200)
+    const NOISE_A = 38;         // amplitud de ondulación reducida (era 60)
+    const NOISE_S = 0.00045;    // velocidad muy lenta → efecto marejada
 
-    // Semillas aleatorias por punto para que cada uno oscile distinto
+    // Semillas aleatorias: cada punto oscila de forma independiente
     const seeds = Array.from({length: N}, () => Math.random() * 1000);
 
-    // Suavizado del centro del blob
     let targetX = 0, targetY = 0;
     let cx = 0, cy = 0;
     let rafId = null;
-    let inside = false;
 
     function lerp(a, b, t) { return a + (b - a) * t; }
 
-    // Ruido suave sin librería: suma de senos con frecuencias distintas
+    // Ruido multi-frecuencia: varias ondas superpuestas → textura acuática
     function noise(t, seed) {
       return (
-        Math.sin(t * 1.3 + seed) * 0.5 +
-        Math.sin(t * 2.7 + seed * 1.7) * 0.3 +
-        Math.sin(t * 0.6 + seed * 0.9) * 0.2
+        Math.sin(t * 1.1  + seed)        * 0.40 +  // onda principal
+        Math.sin(t * 2.3  + seed * 1.6)  * 0.25 +  // armónico medio
+        Math.sin(t * 0.5  + seed * 0.8)  * 0.20 +  // onda lenta
+        Math.sin(t * 3.7  + seed * 2.1)  * 0.10 +  // detalle fino
+        Math.sin(t * 0.18 + seed * 0.3)  * 0.05    // deriva muy lenta → "marejada"
       );
     }
 
     function buildClipPath(x, y, t) {
       const W = wrap.offsetWidth;
       const H = wrap.offsetHeight;
-      // Normalizar a porcentajes para clip-path
       const pts = [];
       for (let i = 0; i < N; i++) {
         const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
@@ -387,8 +375,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function loop(ts) {
       const t = ts * NOISE_S;
 
-      cx = lerp(cx, targetX, 0.085);
-      cy = lerp(cy, targetY, 0.085);
+      // Seguimiento más suave del cursor → sensación líquida (era 0.085)
+      cx = lerp(cx, targetX, 0.055);
+      cy = lerp(cy, targetY, 0.055);
 
       lensInner.style.clipPath = buildClipPath(cx, cy, t);
 
@@ -396,7 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     wrap.addEventListener('mouseenter', (e) => {
-      inside = true;
       const rect = wrap.getBoundingClientRect();
       targetX = cx = e.clientX - rect.left;
       targetY = cy = e.clientY - rect.top;
@@ -404,9 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     wrap.addEventListener('mouseleave', () => {
-      inside = false;
       cancelAnimationFrame(rafId);
-      // Fade out lo maneja CSS (opacity transition en .sim-lens)
     });
 
     wrap.addEventListener('mousemove', (e) => {
