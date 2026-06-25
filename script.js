@@ -335,4 +335,65 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeTimer = setTimeout(setupCarousels, 200);
   });
 
+  /* ── SIMULADOR REVEAL LENS ── */
+  (function () {
+    const wrap       = document.getElementById('sim-wrap');
+    if (!wrap) return;
+
+    const lens       = document.getElementById('sim-lens');
+    const lensInner  = document.getElementById('sim-lens-inner');
+    const baseImg    = wrap.querySelector('.sim-base-img');
+
+    // Cursor puntito verde
+    const dot = document.createElement('div');
+    dot.className = 'sim-cursor';
+    wrap.appendChild(dot);
+
+    const LENS_R = 130; // radio en px (mitad de 260px)
+
+    let rafId = null;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function loop() {
+      // Suavizado igual al cursor del resto de la página
+      currentX = lerp(currentX, targetX, 0.12);
+      currentY = lerp(currentY, targetY, 0.12);
+
+      lens.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%,-50%)`;
+      dot.style.transform  = `translate(${currentX}px, ${currentY}px) translate(-50%,-50%)`;
+
+      // Mover foto6 dentro de la lupa para que coincida con la posición
+      const rect = wrap.getBoundingClientRect();
+      const imgW = baseImg.offsetWidth;
+      const imgH = baseImg.offsetHeight;
+
+      // bg-position: queremos que el pixel (currentX, currentY) del wrapper
+      // quede centrado dentro de la lupa
+      const bpx = -(currentX - LENS_R);
+      const bpy = -(currentY - LENS_R);
+
+      lensInner.style.backgroundSize     = `${imgW}px ${imgH}px`;
+      lensInner.style.backgroundPosition = `${bpx}px ${bpy}px`;
+
+      rafId = requestAnimationFrame(loop);
+    }
+
+    wrap.addEventListener('mouseenter', () => {
+      rafId = requestAnimationFrame(loop);
+    });
+
+    wrap.addEventListener('mouseleave', () => {
+      cancelAnimationFrame(rafId);
+    });
+
+    wrap.addEventListener('mousemove', e => {
+      const rect = wrap.getBoundingClientRect();
+      targetX = e.clientX - rect.left;
+      targetY = e.clientY - rect.top;
+    });
+  })();
+
 });
