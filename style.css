@@ -798,9 +798,8 @@ footer{
 .sim-reveal-wrap:hover .sim-base-img{filter:brightness(.45) saturate(.35)}
 .sim-lens{
   position:absolute;inset:0;pointer-events:none;
-  opacity:0;transition:opacity .35s ease;z-index:10;will-change:opacity;
+  opacity:1;z-index:10;will-change:opacity;
 }
-.sim-reveal-wrap:hover .sim-lens{opacity:1}
 .sim-lens-inner{
   position:absolute;inset:0;
   background-image:url('foto6.png');
