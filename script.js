@@ -304,22 +304,58 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ══════════════════════════════
-     SIMULADOR — GOTA DE AGUA (desktop, hover)
+     SIMULADOR — GOTA DE AGUA CON RASTRO (desktop, hover)
+     En vez de pintar un solo blob, usamos un canvas que se
+     redibuja cuadro a cuadro sin borrarse del todo — así el
+     líquido deja una estela que se desvanece sola.
   ══════════════════════════════ */
   (function () {
-    const wrap      = document.getElementById('sim-wrap');
+    const wrap = document.getElementById('sim-wrap');
     if (!wrap) return;
+    const lens = document.getElementById('sim-lens');
+    if (!lens) return;
     const lensInner = document.getElementById('sim-lens-inner');
-    if (!lensInner) return;
+    if (lensInner) lensInner.style.display = 'none'; // reemplazado por el canvas
 
-    const N             = 9;      // pocos puntos + curva suave = lóbulos líquidos, no un círculo
-    const BASE_R        = 30;     // mancha chica, tipo landonorris.com
-    const NOISE_A        = 13;    // variación más marcada del borde para que "respire" como líquido
-    const SPEED         = 0.00045;// respiración del blob
-    const LERP_FOLLOW   = 0.16;   // sigue al cursor ajustado
+    const N           = 9;       // pocos puntos + curva suave = lóbulos líquidos
+    const BASE_R       = 30;      // tamaño de la mancha
+    const NOISE_A       = 13;     // variación del borde
+    const SPEED        = 0.00045; // respiración del blob
+    const LERP_FOLLOW  = 0.16;    // qué tan ajustado sigue al cursor
+    const FADE_ALPHA   = 0.055;   // cuánto se desvanece el rastro por cuadro (más alto = se va más rápido)
+    const LINGER_FRAMES = 90;     // cuadros que sigue corriendo el loop tras salir el mouse, para que termine de desvanecer
 
     const seeds = Array.from({ length: N }, () => Math.random() * 1000);
-    let targetX = 0, targetY = 0, cx = 0, cy = 0, rafId = null;
+    let targetX = 0, targetY = 0, cx = 0, cy = 0;
+    let rafId = null, active = false, lingerCounter = 0;
+    let W = 0, H = 0;
+
+    /* Canvas que dibuja el blob + mantiene el rastro */
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'absolute';
+    canvas.style.inset = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    lens.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    /* Imagen que se revela dentro del blob */
+    const dropImg = new Image();
+    dropImg.src = 'foto6.png';
+
+    function resizeCanvas() {
+      W = wrap.offsetWidth;
+      H = wrap.offsetHeight;
+      canvas.width  = W;
+      canvas.height = H;
+    }
+    resizeCanvas();
+    let resizeT;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(resizeCanvas, 200);
+    });
 
     function lerp(a, b, t) { return a + (b - a) * t; }
 
@@ -334,22 +370,19 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     }
 
-    function buildClipPath(x, y, t) {
+    function buildBlobPoints(x, y, t) {
       const pts = [];
       for (let i = 0; i < N; i++) {
         const baseAngle  = (i / N) * Math.PI * 2 - Math.PI / 2;
         const angleJitter = dropNoise(t * 0.3, seeds[i] + 500) * 0.08;
         const angle = baseAngle + angleJitter;
         const r  = BASE_R + dropNoise(t, seeds[i]) * NOISE_A;
-        const px = x + Math.cos(angle) * r;
-        const py = y + Math.sin(angle) * r;
-        pts.push([px, py]);
+        pts.push([x + Math.cos(angle) * r, y + Math.sin(angle) * r]);
       }
-      return `path('${catmullRomPath(pts)}')`;
+      return pts;
     }
 
-    // Convierte una serie de puntos (loop cerrado) en una curva suave Catmull-Rom → Bézier.
-    // Esto es lo que hace que el blob se vea como una gota líquida en vez de un polígono recto.
+    // Catmull-Rom → Bézier: convierte los puntos en una curva suave (look líquido, no poligonal)
     function catmullRomPath(pts) {
       const n = pts.length;
       let d = `M ${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)} `;
@@ -367,31 +400,57 @@ document.addEventListener('DOMContentLoaded', () => {
       return d + 'Z';
     }
 
-    function loop(ts) {
+    function render(ts) {
       const t = ts * SPEED;
       cx = lerp(cx, targetX, LERP_FOLLOW);
       cy = lerp(cy, targetY, LERP_FOLLOW);
-      lensInner.style.clipPath = buildClipPath(cx, cy, t);
-      rafId = requestAnimationFrame(loop);
+
+      // 1) Desvanecemos un poco lo que ya estaba dibujado → efecto de rastro líquido
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = `rgba(0,0,0,${FADE_ALPHA})`;
+      ctx.fillRect(0, 0, W, H);
+
+      // 2) Si el mouse sigue activo, dibujamos el blob nuevo encima
+      if (active) {
+        const pts = buildBlobPoints(cx, cy, t);
+        const path = new Path2D(catmullRomPath(pts));
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.clip(path);
+        if (dropImg.complete) ctx.drawImage(dropImg, 0, 0, W, H);
+        ctx.restore();
+      } else if (lingerCounter > 0) {
+        lingerCounter--;
+      }
+
+      if (active || lingerCounter > 0) {
+        rafId = requestAnimationFrame(render);
+      } else {
+        rafId = null;
+        ctx.clearRect(0, 0, W, H); // ya se desvaneció todo, limpiamos del todo
+      }
     }
 
-    function isMobileViewport() {
-      return window.innerWidth <= 768;
+    function startLoop() {
+      if (rafId === null) rafId = requestAnimationFrame(render);
     }
 
     wrap.addEventListener('mouseenter', e => {
-      if (isMobileViewport()) return; // en mobile el loop de glitch maneja todo
       const rect = wrap.getBoundingClientRect();
       targetX = cx = e.clientX - rect.left;
       targetY = cy = e.clientY - rect.top;
-      rafId = requestAnimationFrame(loop);
+      active = true;
+      startLoop();
     });
-    wrap.addEventListener('mouseleave', () => cancelAnimationFrame(rafId));
     wrap.addEventListener('mousemove', e => {
-      if (isMobileViewport()) return;
       const rect = wrap.getBoundingClientRect();
       targetX = e.clientX - rect.left;
       targetY = e.clientY - rect.top;
+    });
+    wrap.addEventListener('mouseleave', () => {
+      active = false;
+      lingerCounter = LINGER_FRAMES; // sigue corriendo un rato para que el rastro se desvanezca solo
+      startLoop();
     });
   })();
 
