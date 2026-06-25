@@ -9,7 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="no-scroll">
+
+<!-- ═══════ LOADER ═══════ -->
+<div id="loader">
+  <div class="loader-logo">APEX<span class="loader-dot">.</span></div>
+  <div class="loader-bar-wrap" aria-hidden="true"><div class="loader-bar"></div></div>
+</div>
 
 <!-- CURSOR -->
 <div id="cursor" aria-hidden="true"></div>
@@ -466,6 +472,32 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!-- ═══════ SCRIPT: LOADER ═══════ -->
+<script>
+(function(){
+  var loader = document.getElementById('loader');
+  var bar = document.querySelector('.loader-bar');
+  var progress = 0;
+  var interval = setInterval(function(){
+    progress += Math.random() * 18 + 6;
+    if(progress >= 100){
+      progress = 100;
+      clearInterval(interval);
+      bar.style.width = '100%';
+      setTimeout(function(){
+        loader.classList.add('loader-out');
+        setTimeout(function(){
+          loader.style.display = 'none';
+          document.body.classList.remove('no-scroll');
+        }, 700);
+      }, 300);
+    } else {
+      bar.style.width = progress + '%';
+    }
+  }, 120);
+})();
+</script>
 
 <!-- ═══════ SCRIPT: HEADING ANIMADO EXPERIENCIAS ═══════ -->
 <script>
