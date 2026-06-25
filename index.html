@@ -31,7 +31,6 @@
     <li><a href="#academia">Academia</a></li>
     <li><a href="#cta">Contacto</a></li>
   </ul>
-  <!-- BUG FIX: botón hamburguesa agregado — faltaba en el HTML original -->
   <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
     <span></span>
     <span></span>
@@ -44,14 +43,10 @@
 
 <!-- ═══════ HERO ═══════ -->
 <section id="hero">
-  <!-- Video de fondo del hero, en loop -->
   <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
     <source src="video1.mp4" type="video/mp4">
   </video>
   <div class="hero-bg-overlay" aria-hidden="true"></div>
-
-  <!-- Particle canvas -->
- 
 
   <!-- Telemetry bar -->
   <div class="hero-telemetry-bar" aria-hidden="true">
@@ -88,7 +83,6 @@
     <div class="hero-right">
       <div class="hero-img-frame">
         <div class="hero-img-placeholder">
-          <!-- Imagen real del piloto -->
           <img src="foto1.png" alt="Piloto APEX en acción" class="hero-img-real">
 
           <div class="cbracket tl"></div>
@@ -117,7 +111,6 @@
             </div>
           </div>
 
-          <!-- Circuit SVG decorative -->
           <svg width="140" height="100" viewBox="0 0 140 100" fill="none"
                aria-hidden="true"
                style="position:relative;z-index:1;opacity:.2;margin-top:3rem">
@@ -142,7 +135,6 @@
     <div class="ticker-item"><span class="dot">●</span>LATINOAMÉRICA</div>
     <div class="ticker-item"><span class="vdot">●</span>ACADEMY 2027 · F3 PIPELINE</div>
     <div class="ticker-item"><span class="dot">●</span>APEX · CORRÉ PARA GANAR</div>
-    <!-- Duplicate for seamless loop -->
     <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
     <div class="ticker-item"><span class="vdot">●</span>FIA CERTIFIED TRAINING</div>
     <div class="ticker-item"><span class="dot">●</span>TECNOLOGÍA DE FÁBRICA</div>
@@ -158,17 +150,37 @@
   <div class="exp-header">
     <div>
       <div class="eyebrow reveal">Experiencias</div>
-      <h2 class="sec-title reveal d1">ELIGE TU<br>CIRCUITO</h2>
+
+      <!-- ── NUEVO HEADING ANIMADO ── -->
+      <div class="exp-headline-wrap reveal d1" aria-label="Elige tu circuito">
+        <div class="exp-type-line" id="exp-headline-line">
+          <span class="exp-letter" data-delay="80">E</span>
+          <span class="exp-letter" data-delay="120">L</span>
+          <span class="exp-letter" data-delay="160">I</span>
+          <span class="exp-letter" data-delay="200">G</span>
+          <span class="exp-letter" data-delay="240">E</span>
+          <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+          <span class="exp-letter" data-delay="300">T</span>
+          <span class="exp-letter" data-delay="340">U</span>
+          <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+          <span class="exp-letter" data-delay="400">C</span>
+          <span class="exp-letter" data-delay="440">I</span>
+          <span class="exp-letter" data-delay="480">R</span>
+          <span class="exp-letter" data-delay="520">C</span>
+          <span class="exp-letter" data-delay="560">U</span>
+          <span class="exp-letter" data-delay="600">I</span>
+          <span class="exp-letter" data-delay="640">T</span>
+          <span class="exp-letter" data-delay="680">O</span>
+        </div>
+      </div>
+      <!-- ── FIN HEADING ANIMADO ── -->
+
     </div>
     <p class="sec-sub reveal d2">
       Tres mundos de velocidad. Un solo lugar donde perfeccionarlos. Cada modalidad tiene su propia curva de aprendizaje — y su propia adrenalina.
     </p>
   </div>
 
-  <!-- BUG FIX: estructura de exp-circuit corregida para que coincida con el CSS.
-       El CSS espera .exp-circuit-img y .exp-circuit-body como hijos directos.
-       El HTML original tenía .exp-num, .exp-name, etc. sueltos sin ese wrapper,
-       lo que rompía todos los estilos de hover (imagen, overlay, borde inferior). -->
   <div class="exp-circuits reveal d1">
     <div class="exp-circuit">
       <div class="exp-circuit-img">[ FOTO — TRAZADA ]</div>
@@ -459,5 +471,45 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!-- ═══════ SCRIPT: HEADING ANIMADO EXPERIENCIAS ═══════ -->
+<script>
+(function(){
+  function fitExpHeadline(){
+    var line = document.getElementById('exp-headline-line');
+    if(!line) return;
+    var wrap = line.parentElement;
+    var w = wrap.offsetWidth;
+    var fs = 10;
+    line.style.fontSize = fs + 'px';
+    while(line.scrollWidth <= w && fs < 600){
+      fs += 2;
+      line.style.fontSize = fs + 'px';
+    }
+    line.style.fontSize = (fs - 2) + 'px';
+  }
+
+  fitExpHeadline();
+  window.addEventListener('resize', fitExpHeadline);
+
+  // Trigger letter animation when section enters viewport
+  var triggered = false;
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !triggered){
+        triggered = true;
+        document.querySelectorAll('.exp-letter[data-delay]').forEach(function(el){
+          var delay = parseInt(el.dataset.delay) || 0;
+          setTimeout(function(){ el.classList.add('exp-letter-animate'); }, delay);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  var wrap = document.querySelector('.exp-headline-wrap');
+  if(wrap) observer.observe(wrap);
+})();
+</script>
+
 </body>
 </html>
