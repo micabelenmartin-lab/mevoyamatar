@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ══════════════════════════════
-     SIMULADOR — GOTA DE AGUA
+     SIMULADOR — GOTA DE AGUA (desktop, hover)
   ══════════════════════════════ */
   (function () {
     const wrap      = document.getElementById('sim-wrap');
@@ -358,7 +358,12 @@ document.addEventListener('DOMContentLoaded', () => {
       rafId = requestAnimationFrame(loop);
     }
 
+    function isMobileViewport() {
+      return window.innerWidth <= 768;
+    }
+
     wrap.addEventListener('mouseenter', e => {
+      if (isMobileViewport()) return; // en mobile el loop de glitch maneja todo
       const rect = wrap.getBoundingClientRect();
       targetX = cx = e.clientX - rect.left;
       targetY = cy = e.clientY - rect.top;
@@ -366,10 +371,90 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     wrap.addEventListener('mouseleave', () => cancelAnimationFrame(rafId));
     wrap.addEventListener('mousemove', e => {
+      if (isMobileViewport()) return;
       const rect = wrap.getBoundingClientRect();
       targetX = e.clientX - rect.left;
       targetY = e.clientY - rect.top;
     });
+  })();
+
+  /* ══════════════════════════════
+     SIMULADOR — LOOP GLITCH AUTOMÁTICO (mobile)
+     Alterna foto5.png / foto6.png solas, con glitch,
+     ya que en mobile no hay cursor para "revelar" la lente.
+  ══════════════════════════════ */
+  (function () {
+    const wrap = document.getElementById('sim-wrap');
+    const lens = document.getElementById('sim-lens');
+    if (!wrap || !lens) return;
+
+    const MOBILE_BREAKPOINT = 768;
+    const HOLD_TIME   = 2600; // tiempo que se mantiene cada foto antes del próximo glitch
+    const GLITCH_TIME = 400;  // duración de la animación simGlitchFx (debe matchear el CSS)
+
+    let showingAlt = false; // false = foto5 visible, true = foto6 visible
+    let loopTimer  = null;
+    let active     = false;
+
+    function triggerGlitch() {
+      // Disparamos el glitch visual...
+      wrap.classList.add('sim-glitching');
+
+      // ...y a mitad de camino del glitch, swapeamos qué imagen queda arriba
+      setTimeout(() => {
+        showingAlt = !showingAlt;
+        lens.classList.toggle('sim-active', showingAlt);
+      }, GLITCH_TIME * 0.45);
+
+      // al terminar la animación, quitamos la clase para poder re-disparar después
+      setTimeout(() => {
+        wrap.classList.remove('sim-glitching');
+      }, GLITCH_TIME + 30);
+    }
+
+    function startLoop() {
+      if (active) return;
+      active = true;
+      loopTimer = setInterval(triggerGlitch, HOLD_TIME);
+    }
+
+    function stopLoop() {
+      active = false;
+      if (loopTimer) clearInterval(loopTimer);
+      loopTimer = null;
+      wrap.classList.remove('sim-glitching');
+      lens.classList.remove('sim-active');
+      showingAlt = false;
+    }
+
+    function syncWithViewport() {
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    }
+
+    syncWithViewport();
+    let resizeT;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(syncWithViewport, 200);
+    });
+
+    // Pausamos el loop si la sección no está visible (ahorro de trabajo / batería)
+    const sectionIo = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (window.innerWidth > MOBILE_BREAKPOINT) return;
+        if (entry.isIntersecting) {
+          startLoop();
+        } else {
+          if (loopTimer) clearInterval(loopTimer);
+          active = false;
+        }
+      });
+    }, { threshold: .15 });
+    sectionIo.observe(wrap);
   })();
 
 });
