@@ -434,7 +434,6 @@ section{padding:7rem 3rem}
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:1px;background:#111;margin-bottom:4rem;
 }
-/* ── CAMBIO: resplandor violeta en las tarjetas de circuito ── */
 .exp-circuit{
   display:flex;flex-direction:column;
   min-height:520px;
@@ -544,18 +543,32 @@ section{padding:7rem 3rem}
   font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.15em;
   text-transform:uppercase;padding:.3rem .7rem;display:inline-block;
 }
-.prog-header-row .prog-badge{margin-bottom:0}
-.prog-level-bars{display:flex;gap:4px;align-items:center}
-.bar{
-  display:inline-block;width:22px;height:6px;
-  clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+.prog-header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:1.2rem;
 }
-.bar-white.bar-on{background:var(--white)}
-.bar-white.bar-off{background:rgba(242,242,242,.18)}
-.bar-green.bar-on{background:var(--green);box-shadow:0 0 6px rgba(0,255,136,.5)}
-.bar-green.bar-off{background:rgba(0,255,136,.15)}
-.bar-violet.bar-on{background:var(--violet);box-shadow:0 0 6px rgba(191,95,255,.5)}
-.bar-violet.bar-off{background:rgba(191,95,255,.15)}
+/* ── BARRAS DE NIVEL — estilo diagonal ── */
+.prog-level-bars{
+  display:flex;
+  gap:4px;
+  align-items:center;
+}
+.bar{
+  display:inline-block;
+  width:8px;
+  height:20px;
+  transform:skewX(-16deg);
+  flex-shrink:0;
+}
+.bar-white.bar-on{ background:var(--white); }
+.bar-white.bar-off{ background:rgba(242,242,242,.18); }
+.bar-green.bar-on{ background:var(--green); box-shadow:0 0 6px rgba(0,255,136,.5); }
+.bar-green.bar-off{ background:rgba(0,255,136,.15); }
+.bar-violet.bar-on{ background:var(--violet); box-shadow:0 0 6px rgba(191,95,255,.5); }
+.bar-violet.bar-off{ background:rgba(191,95,255,.15); }
+
 .b-default{background:#111;color:var(--muted)}
 .b-featured{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)}
 .b-elite{background:rgba(191,95,255,.1);color:var(--violet);border:1px solid rgba(191,95,255,.2)}
