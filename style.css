@@ -242,6 +242,14 @@ nav{
   display:flex;gap:1rem;align-items:center;flex-wrap:wrap;
   opacity:0;animation:fadeUp .7s .65s forwards;position:relative;z-index:1;
 }
+.hero-actions .btn-primary{
+  font-size:.88rem;
+  padding:.95rem 2.7rem;
+}
+.hero-actions .btn-ghost{
+  font-size:.88rem;
+  padding:.85rem 2.3rem;
+}
 
 /* ── Buttons ── */
 .btn-primary{
