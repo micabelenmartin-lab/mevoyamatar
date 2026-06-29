@@ -155,8 +155,7 @@
   <div class="exp-header exp-header-centered">
     <div class="eyebrow reveal" style="justify-content:center">Experiencias</div>
 
-    <!-- ── HEADING ANIMADO ── -->
-    <div class="exp-headline-wrap reveal d1" aria-label="Elige tu circuito">
+    <div class="exp-headline-wrap reveal d1" id="exp-headline-wrap" aria-label="Elige tu circuito">
       <div class="exp-type-line" id="exp-headline-line">
         <span class="exp-letter" data-delay="80">E</span>
         <span class="exp-letter" data-delay="120">L</span>
@@ -177,8 +176,6 @@
         <span class="exp-letter" data-delay="680">O</span>
       </div>
     </div>
-    <!-- ── FIN HEADING ANIMADO ── -->
-
   </div>
 
   <div class="exp-circuits reveal d1">
@@ -208,7 +205,6 @@
     </div>
   </div>
 
-  <!-- DOTS carrusel circuitos -->
   <div class="exp-carousel-dots" aria-hidden="true"></div>
 
   <div class="media-strip reveal d2">
@@ -310,7 +306,6 @@
 
   </div>
 
-  <!-- DOTS carrusel programas -->
   <div class="prog-carousel-dots" aria-hidden="true"></div>
 
 </section>
@@ -320,7 +315,34 @@
 <section id="simulador">
   <div class="sim-header">
     <div class="eyebrow reveal" style="justify-content:center">El Equipo</div>
-    <h2 class="sec-title reveal d1" style="text-align:center">EL SIMULADOR<br><span class="t-green">POR DENTRO</span></h2>
+
+    <div class="exp-headline-wrap reveal d1" id="sim-headline-wrap" aria-label="El simulador por dentro">
+      <div class="exp-type-line" id="sim-headline-line">
+        <span class="exp-letter" data-delay="80">E</span>
+        <span class="exp-letter" data-delay="120">L</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter" data-delay="180">S</span>
+        <span class="exp-letter" data-delay="220">I</span>
+        <span class="exp-letter" data-delay="260">M</span>
+        <span class="exp-letter" data-delay="300">U</span>
+        <span class="exp-letter" data-delay="340">L</span>
+        <span class="exp-letter" data-delay="380">A</span>
+        <span class="exp-letter" data-delay="420">D</span>
+        <span class="exp-letter" data-delay="460">O</span>
+        <span class="exp-letter" data-delay="500">R</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter exp-tu" data-delay="560">P</span>
+        <span class="exp-letter exp-tu" data-delay="600">O</span>
+        <span class="exp-letter exp-tu" data-delay="640">R</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter" data-delay="700">D</span>
+        <span class="exp-letter" data-delay="740">E</span>
+        <span class="exp-letter" data-delay="780">N</span>
+        <span class="exp-letter" data-delay="820">T</span>
+        <span class="exp-letter" data-delay="860">R</span>
+        <span class="exp-letter" data-delay="900">O</span>
+      </div>
+    </div>
   </div>
 
   <div class="sim-reveal-wrap reveal d2" id="sim-wrap">
@@ -523,7 +545,7 @@
     entries.forEach(function(entry){
       if(entry.isIntersecting && !triggered){
         triggered = true;
-        document.querySelectorAll('.exp-letter[data-delay]').forEach(function(el){
+        document.querySelectorAll('#exp-headline-line .exp-letter[data-delay]').forEach(function(el){
           var delay = parseInt(el.dataset.delay) || 0;
           setTimeout(function(){ el.classList.add('exp-letter-animate'); }, delay);
         });
@@ -531,7 +553,48 @@
     });
   }, { threshold: 0.2 });
 
-  var wrap = document.querySelector('.exp-headline-wrap');
+  var wrap = document.getElementById('exp-headline-wrap');
+  if(wrap) observer.observe(wrap);
+})();
+</script>
+
+<!-- ═══════ SCRIPT: HEADING ANIMADO SIMULADOR ═══════ -->
+<script>
+(function(){
+  function fitSimHeadline(){
+    var line = document.getElementById('sim-headline-line');
+    if(!line) return;
+    var header = document.querySelector('.sim-header');
+    var hStyle = header ? window.getComputedStyle(header) : null;
+    var padL = hStyle ? parseFloat(hStyle.paddingLeft) : 48;
+    var padR = hStyle ? parseFloat(hStyle.paddingRight) : 48;
+    var w = (header ? header.offsetWidth : line.parentElement.offsetWidth) - padL - padR;
+    var fs = 10;
+    line.style.fontSize = fs + 'px';
+    while(line.scrollWidth <= w && fs < 800){
+      fs += 2;
+      line.style.fontSize = fs + 'px';
+    }
+    line.style.fontSize = (fs - 2) + 'px';
+  }
+
+  fitSimHeadline();
+  window.addEventListener('resize', fitSimHeadline);
+
+  var triggered = false;
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !triggered){
+        triggered = true;
+        document.querySelectorAll('#sim-headline-line .exp-letter[data-delay]').forEach(function(el){
+          var delay = parseInt(el.dataset.delay) || 0;
+          setTimeout(function(){ el.classList.add('exp-letter-animate'); }, delay);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  var wrap = document.getElementById('sim-headline-wrap');
   if(wrap) observer.observe(wrap);
 })();
 </script>
