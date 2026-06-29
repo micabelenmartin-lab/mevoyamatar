@@ -412,6 +412,16 @@ section{padding:7rem 3rem}
   text-shadow:0 0 50px rgba(0,255,136,.5);
 }
 
+.exp-letter.exp-tu{
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--white);
+}
+.exp-letter.exp-tu:hover{
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--green);
+  text-shadow:0 0 50px rgba(0,255,136,.5);
+}
+
 /* clase legacy — ya no hace nada */
 .exp-letter.exp-letter-animate{}
 
