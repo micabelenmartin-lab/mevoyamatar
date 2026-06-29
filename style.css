@@ -197,7 +197,7 @@ nav{
 .tel-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.2s infinite;display:inline-block}
 @keyframes blink{0%,100%{opacity:1;box-shadow:0 0 6px var(--green)}50%{opacity:.2;box-shadow:none}}
 .hero-grid{
-  display:grid;grid-template-columns:1fr 1fr;
+  display:grid;grid-template-columns:0.85fr 1.25fr;
   flex:1;padding-top:90px;align-items:center;gap:4rem;
   position:relative;z-index:1;
 }
@@ -266,7 +266,7 @@ nav{
 /* ── Hero right panel ── */
 .hero-right{position:relative;display:flex;justify-content:center;align-items:center}
 .hero-img-frame{
-  width:100%;aspect-ratio:4/5;max-width:480px;position:relative;
+  width:100%;aspect-ratio:4/5;max-width:680px;position:relative;
   opacity:0;animation:fadeRight .9s .4s forwards;
 }
 .hero-img-placeholder{
