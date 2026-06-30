@@ -703,6 +703,7 @@ section{padding:7rem 3rem}
 #academia .sec-title{color:var(--black)}
 #academia .t-green{color:var(--black)}
 #academia .sec-sub{color:var(--black);font-size:1.05rem}
+#academia .sec-sub span{color:var(--black);font-weight:inherit}
 #academia .t-violet{color:var(--black);font-weight:600}
 #academia .year-badge{border-color:rgba(0,0,0,.3);color:var(--black);box-shadow:none}
 #academia .year-badge .yr{color:var(--black)}
