@@ -35,8 +35,8 @@
   position:relative;
   overflow:hidden;
   display:grid;
-  grid-template-columns:1fr 420px;
-  gap:4rem;
+  grid-template-columns:1fr 520px;  /* columna foto más ancha */
+  gap:3rem;
   align-items:center;
 }
 .det-header-left{ display:flex; flex-direction:column }
@@ -45,7 +45,7 @@
 .det-header-img{
   position:relative;
   width:100%;
-  aspect-ratio:4/3;
+  aspect-ratio:3/2.2;   /* más alto, más imponente */
   overflow:hidden;
   border:1px solid rgba(0,255,136,.08);
   flex-shrink:0;
@@ -182,6 +182,7 @@
   border:1px solid var(--prog-badge-border, rgba(255,255,255,.2));
   background:var(--prog-badge-bg, rgba(255,255,255,.06));
   color:var(--prog-accent, var(--white));
+  align-self:flex-start; /* no se estira al ancho del padre */
 }
 .det-badge-dot{
   width:6px;
@@ -214,15 +215,17 @@
 .det-popular{
   display:inline-flex;
   align-items:center;
-  gap:.5rem;
+  gap:.6rem;
   font-family:var(--ff-mono);
-  font-size:.48rem;
+  font-size:.62rem;           /* más grande */
   letter-spacing:.15em;
   text-transform:uppercase;
-  color:var(--green);
-  border:1px solid rgba(0,255,136,.3);
-  padding:.25rem .7rem;
+  color:var(--black);         /* texto negro sobre fondo verde */
+  background:var(--green);    /* relleno sólido — no outline */
+  border:none;
+  padding:.35rem 1rem;
   font-style:normal;
+  box-shadow:0 0 16px rgba(0,255,136,.35);
 }
 .det-popular::before{
   content:'';
@@ -235,11 +238,7 @@
 }
 
 .det-tagline{
-  font-size:1.05rem;
-  color:#666;
-  font-weight:300;
-  max-width:560px;
-  line-height:1.75;
+  display:none; /* eliminado del header — el contenido está en el body */
 }
 
 /* Precio */
@@ -643,8 +642,11 @@
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
-@media(max-width:1100px){
-  .det-header{ grid-template-columns:1fr 340px; gap:2.5rem }
+@media(max-width:1200px){
+  .det-header{ grid-template-columns:1fr 420px; gap:2.5rem }
+}
+@media(max-width:1000px){
+  .det-header{ grid-template-columns:1fr 340px; gap:2rem }
 }
 @media(max-width:900px){
   .det-header{ grid-template-columns:1fr; gap:2.5rem; padding:3rem 2rem 2.5rem }
