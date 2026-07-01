@@ -31,13 +31,14 @@
 ══════════════════════════════ */
 .det-header{
   padding:4rem 3rem 3rem;
-  border-bottom:1px solid #111;
+  border-bottom:1px solid #e0e0e0;
   position:relative;
   overflow:hidden;
   display:grid;
-  grid-template-columns:1fr 520px;  /* columna foto más ancha */
+  grid-template-columns:1fr 520px;
   gap:3rem;
   align-items:center;
+  background:#ffffff;  /* fondo blanco */
 }
 .det-header-left{ display:flex; flex-direction:column }
 
@@ -143,10 +144,10 @@
 
 .det-back{
   font-family:var(--ff-mono);
-  font-size:.58rem;
+  font-size:.68rem;          /* más grande */
   letter-spacing:.2em;
   text-transform:uppercase;
-  color:var(--muted);
+  color:#888;                /* visible sobre blanco */
   display:inline-flex;
   align-items:center;
   gap:.5rem;
@@ -158,7 +159,7 @@
 
 .det-eyebrow{
   font-family:var(--ff-mono);
-  font-size:.6rem;
+  font-size:.75rem;          /* más grande */
   letter-spacing:.25em;
   text-transform:uppercase;
   color:var(--prog-accent, var(--green));
@@ -167,43 +168,35 @@
   gap:.6rem;
   margin-bottom:1rem;
 }
-.det-eyebrow::before{ content:'//'; color:var(--violet) }
+.det-eyebrow::before{ content:''; display:none }
 
 .det-badge{
   display:inline-flex;
   align-items:center;
   gap:.6rem;
   font-family:var(--ff-mono);
-  font-size:.5rem;
+  font-size:.65rem;          /* más grande */
   letter-spacing:.15em;
   text-transform:uppercase;
-  padding:.3rem .9rem;
+  padding:.4rem 1rem;
   margin-bottom:1.5rem;
-  border:1px solid var(--prog-badge-border, rgba(255,255,255,.2));
-  background:var(--prog-badge-bg, rgba(255,255,255,.06));
-  color:var(--prog-accent, var(--white));
-  align-self:flex-start; /* no se estira al ancho del padre */
+  border:1px solid var(--prog-badge-border, rgba(0,0,0,.15));
+  background:var(--prog-badge-bg, rgba(0,0,0,.04));
+  color:var(--prog-accent, #111);
+  align-self:flex-start;
 }
-.det-badge-dot{
-  width:6px;
-  height:6px;
-  display:inline-block;
-  transform:skewX(-12deg);
-  background:var(--prog-accent, var(--white));
-  box-shadow:0 0 6px var(--prog-glow, rgba(255,255,255,.3));
-}
+.det-badge-dot{ display:none }  /* elimina la barrita/dot */
 
 .det-title{
   font-family:var(--ff-display);
   font-weight:900;
   font-style:italic;
-  font-size:clamp(4rem,9vw,9rem);
+  font-size:clamp(5rem,11vw,12rem);  /* más grande */
   text-transform:uppercase;
   letter-spacing:-.02em;
   line-height:.85;
-  /* OUTLINE — sin relleno, solo trazo del color del nivel */
   color:transparent;
-  -webkit-text-stroke:2px var(--prog-accent, var(--white));
+  -webkit-text-stroke:3px var(--prog-accent, var(--black));  /* trazo más grueso */
   text-shadow:none;
   margin-bottom:1.5rem;
   display:flex;
@@ -1084,6 +1077,9 @@ const PROGRAMAS = {
 
   // Badge
   document.getElementById('det-badge-text').textContent = p.badge;
+
+  // Eyebrow dinámico — "Programa PRO", "Programa ENTRY", etc.
+  document.querySelector('.det-eyebrow').textContent = 'Programa ' + p.nombre;
 
   // Título + popular badge
   const titleEl = document.getElementById('det-title');
