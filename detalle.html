@@ -37,30 +37,106 @@
 }
 .det-header-left{ display:flex; flex-direction:column }
 
-/* ── CARRUSEL CENTRADO — foco visual del header ── */
-.det-header-carousel{
+/* ── FOTO CON HUD ── */
+.det-header-img{
   position:relative;
   width:100%;
   height:100%;
   min-height:520px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  overflow:hidden;
+  border:none;
+  flex-shrink:0;
   align-self:stretch;
 }
-.det-header-carousel .det-carousel-wrap{
+.det-header-img img{
   width:100%;
   height:100%;
-  min-height:520px;
-  border:1px solid rgba(191,95,255,.18);
-  box-shadow:0 0 50px rgba(191,95,255,.1);
+  object-fit:cover;
+  display:block;
+  filter:saturate(.85) brightness(.9);
 }
-.det-header-carousel .det-carousel,
-.det-header-carousel .det-carousel-track{
-  height:100%;
+/* Overlay oscuro en degradado */
+.det-header-img::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(5,5,5,.55) 0%, transparent 60%, rgba(5,5,5,.35) 100%);
+  pointer-events:none;
 }
-.det-header-carousel .det-carousel-slide{
-  min-height:520px;
+/* Brackets en esquinas — igual que el hero */
+.det-img-bracket{
+  position:absolute;
+  width:16px;
+  height:16px;
+  z-index:2;
+  pointer-events:none;
+}
+.det-img-bracket.tl{ top:10px; left:10px; border-top:1.5px solid var(--prog-accent,var(--green)); border-left:1.5px solid var(--prog-accent,var(--green)); }
+.det-img-bracket.tr{ top:10px; right:10px; border-top:1.5px solid var(--prog-accent,var(--green)); border-right:1.5px solid var(--prog-accent,var(--green)); }
+.det-img-bracket.bl{ bottom:10px; left:10px; border-bottom:1.5px solid var(--violet); border-left:1.5px solid var(--violet); }
+.det-img-bracket.br{ bottom:10px; right:10px; border-bottom:1.5px solid var(--violet); border-right:1.5px solid var(--violet); }
+/* HUD overlay — igual estética que foto1 */
+.det-img-hud{
+  position:absolute;
+  top:.8rem;
+  left:.8rem;
+  right:.8rem;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  gap:.35rem;
+  pointer-events:none;
+}
+.det-hud-row{
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--ff-mono);
+  font-size:.52rem;
+  color:rgba(242,242,242,.45);
+}
+.det-hud-val{ color:var(--prog-accent, var(--green)) }
+.det-hud-val.v{ color:var(--violet) }
+/* Barra RPM lateral */
+.det-img-rpm{
+  position:absolute;
+  right:8px;
+  top:10%;
+  height:80%;
+  width:4px;
+  background:#111;
+  border-radius:2px;
+  overflow:hidden;
+  z-index:3;
+}
+.det-img-rpm-fill{
+  width:100%;
+  background:linear-gradient(to top, var(--prog-accent, var(--green)), var(--violet));
+  border-radius:2px;
+  animation:rpmPulse 1.8s ease-in-out infinite alternate;
+}
+/* REC badge */
+.det-img-rec{
+  position:absolute;
+  top:.8rem;
+  right:1.4rem;
+  z-index:3;
+  font-family:var(--ff-mono);
+  font-size:.48rem;
+  letter-spacing:.15em;
+  color:rgba(242,242,242,.6);
+  display:flex;
+  align-items:center;
+  gap:.3rem;
+}
+.det-img-rec::before{
+  content:'';
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#ff3333;
+  display:inline-block;
+  animation:blink 1.2s infinite;
+  box-shadow:0 0 6px rgba(255,51,51,.7);
 }
 
 .det-back{
@@ -125,7 +201,7 @@
   display:block;
   margin-bottom:.2rem;
 }
-/* Línea con el nombre del programa — outline + botón */
+/* Línea con el nombre del programa — outline */
 .det-title{
   font-family:var(--ff-display);
   font-weight:900;
@@ -137,11 +213,16 @@
   color:transparent;
   -webkit-text-stroke:4px var(--violet);
   text-shadow:none;
-  margin-bottom:2rem;
+  margin:0;
+}
+
+/* Fila título + precio, uno al lado del otro */
+.det-title-row{
   display:flex;
   align-items:center;
   gap:2rem;
   flex-wrap:wrap;
+  margin-bottom:2rem;
 }
 
 /* Botón de inscripción junto al título */
@@ -199,27 +280,26 @@
   display:none; /* eliminado del header — el contenido está en el body */
 }
 
-/* Precio */
-.det-price-block{
-  display:flex;
-  align-items:flex-end;
-  gap:1rem;
-  margin-top:2.5rem;
-  padding-top:2.5rem;
-  border-top:1px solid #161616;
-}
+/* Precio — ahora al lado del título */
 .det-price{
   font-family:var(--ff-display);
   font-weight:900;
-  font-size:clamp(4.2rem,8.5vw,7.5rem);
+  font-size:clamp(3rem,6vw,5.5rem);
   color:var(--white);
   line-height:1;
+  flex-shrink:0;
+}
+
+/* Bloque de info debajo del título+precio: período, nota y CTAs */
+.det-info-below{
+  margin-top:1rem;
+  padding-top:2.5rem;
+  border-top:1px solid #161616;
 }
 .det-price-meta{
   display:flex;
   flex-direction:column;
   gap:.2rem;
-  padding-bottom:.4rem;
 }
 .det-price-period{
   font-family:var(--ff-mono);
@@ -684,6 +764,26 @@
 }
 
 /* ══════════════════════════════
+   CARRUSEL — sección aparte, centrada y más grande
+══════════════════════════════ */
+.det-carousel-section{
+  display:flex;
+  justify-content:center;
+  padding:4rem 3rem;
+  background:var(--black);
+  border-bottom:1px solid #111;
+}
+.det-carousel-wrap-standalone{
+  width:100%;
+  max-width:980px;
+  border:1px solid rgba(191,95,255,.18);
+  box-shadow:0 0 60px rgba(191,95,255,.12);
+}
+.det-carousel-wrap-standalone .det-carousel-slide{
+  min-height:560px;
+}
+
+/* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
 @media(max-width:1200px){
@@ -694,9 +794,9 @@
 }
 @media(max-width:900px){
   .det-header{ grid-template-columns:1fr; gap:2.5rem; padding:3rem 2rem 2.5rem }
-  .det-header-carousel,
-  .det-header-carousel .det-carousel-wrap,
-  .det-header-carousel .det-carousel-slide{ min-height:340px }
+  .det-header-img{ max-width:520px }
+  .det-carousel-section{ padding:3rem 2rem }
+  .det-carousel-wrap-standalone .det-carousel-slide{ min-height:380px }
   .det-body{ grid-template-columns:1fr }
   .det-aside{ border-left:none; border-top:1px solid #111 }
   .det-main{ padding:3rem 2rem }
@@ -705,13 +805,15 @@
 }
 @media(max-width:480px){
   .det-header,.det-main,.det-aside{ padding:2.5rem 1.5rem }
-  .det-header-carousel,
-  .det-header-carousel .det-carousel-wrap,
-  .det-header-carousel .det-carousel-slide{ min-height:220px }
+  .det-header-img{ display:none }
+  .det-carousel-section{ padding:2rem 1.5rem }
+  .det-carousel-wrap-standalone .det-carousel-slide{ min-height:260px }
   .det-footer{ padding:1.5rem }
   .det-cta-row{ flex-direction:column; align-items:flex-start }
   .btn-primary,.btn-ghost,.btn-elite{ width:100%; text-align:center; justify-content:center; display:block }
   .det-title{ font-size:clamp(3.5rem,16vw,6rem) }
+  .det-title-row{ gap:1rem }
+  .det-price{ font-size:clamp(2.2rem,10vw,3.5rem) }
 }
 
 /* ══════════════════════════════
@@ -851,39 +953,74 @@
         <span id="det-badge-text"></span>
       </div>
       <span class="det-title-pre">PROGRAMA</span>
-      <h1 class="det-title" id="det-title"></h1>
+      <div class="det-title-row">
+        <h1 class="det-title" id="det-title"></h1>
+        <div class="det-price" id="det-price"></div>
+      </div>
       <p class="det-tagline" id="det-tagline"></p>
 
-      <div class="det-price-block">
-        <div class="det-price" id="det-price"></div>
+      <div class="det-info-below">
         <div class="det-price-meta">
           <div class="det-price-period" id="det-price-period"></div>
           <div class="det-price-note" id="det-price-note"></div>
         </div>
-      </div>
-      <div class="det-cta-row" id="det-cta-row"></div>
-      <p class="det-cta-note">Cupos limitados · Respuesta en menos de 24 hs</p>
-    </div>
-
-    <!-- DERECHA — carrusel centrado como foco visual -->
-    <div class="det-header-carousel">
-      <div class="det-carousel-wrap">
-        <div class="det-carousel" id="det-carousel">
-          <div class="det-carousel-track" id="det-carousel-track">
-            <div class="det-carousel-slide"><img src="foto14.png" alt="APEX — imagen 1" draggable="false"></div>
-            <div class="det-carousel-slide"><img src="foto15.png" alt="APEX — imagen 2" draggable="false"></div>
-            <div class="det-carousel-slide"><img src="foto16.png" alt="APEX — imagen 3" draggable="false"></div>
-          </div>
-        </div>
-        <!-- Dots -->
-        <div class="det-carousel-dots" id="det-carousel-dots">
-          <button class="det-cdot active" data-idx="0" aria-label="Slide 1"></button>
-          <button class="det-cdot" data-idx="1" aria-label="Slide 2"></button>
-          <button class="det-cdot" data-idx="2" aria-label="Slide 3"></button>
-        </div>
+        <div class="det-cta-row" id="det-cta-row"></div>
+        <p class="det-cta-note">Cupos limitados · Respuesta en menos de 24 hs</p>
       </div>
     </div>
 
+    <!-- DERECHA — foto con HUD -->
+    <div class="det-header-img">
+      <img src="foto13.png" alt="Piloto APEX en simulador" draggable="false">
+      <!-- Brackets -->
+      <div class="det-img-bracket tl"></div>
+      <div class="det-img-bracket tr"></div>
+      <div class="det-img-bracket bl"></div>
+      <div class="det-img-bracket br"></div>
+      <!-- HUD -->
+      <div class="det-img-hud">
+        <div class="det-hud-row">
+          <span>PILOT CAM</span>
+          <span></span>
+        </div>
+        <div class="det-hud-row">
+          <span>SPEED</span>
+          <span class="det-hud-val" id="hud-speed">275 km/h</span>
+        </div>
+        <div class="det-hud-row">
+          <span>THROTTLE</span>
+          <span class="det-hud-val v">97%</span>
+        </div>
+        <div class="det-hud-row">
+          <span>BRAKE</span>
+          <span class="det-hud-val">0%</span>
+        </div>
+      </div>
+      <!-- REC -->
+      <div class="det-img-rec">REC</div>
+      <!-- Barra RPM -->
+      <div class="det-img-rpm"><div class="det-img-rpm-fill"></div></div>
+    </div>
+
+  </div>
+
+  <!-- ── CARRUSEL — sección aparte ── -->
+  <div class="det-carousel-section">
+    <div class="det-carousel-wrap det-carousel-wrap-standalone">
+      <div class="det-carousel" id="det-carousel">
+        <div class="det-carousel-track" id="det-carousel-track">
+          <div class="det-carousel-slide"><img src="foto14.png" alt="APEX — imagen 1" draggable="false"></div>
+          <div class="det-carousel-slide"><img src="foto15.png" alt="APEX — imagen 2" draggable="false"></div>
+          <div class="det-carousel-slide"><img src="foto16.png" alt="APEX — imagen 3" draggable="false"></div>
+        </div>
+      </div>
+      <!-- Dots -->
+      <div class="det-carousel-dots" id="det-carousel-dots">
+        <button class="det-cdot active" data-idx="0" aria-label="Slide 1"></button>
+        <button class="det-cdot" data-idx="1" aria-label="Slide 2"></button>
+        <button class="det-cdot" data-idx="2" aria-label="Slide 3"></button>
+      </div>
+    </div>
   </div>
 
   <!-- ── BODY ── -->
