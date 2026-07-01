@@ -35,10 +35,11 @@
   position:relative;
   overflow:hidden;
   display:grid;
-  grid-template-columns:1fr 520px;
+  grid-template-columns:1fr 620px;
   gap:3rem;
   align-items:center;
-  background:#ffffff;  /* fondo blanco */
+  background:#ffffff;
+  min-height:600px;
 }
 .det-header-left{ display:flex; flex-direction:column }
 
@@ -46,10 +47,12 @@
 .det-header-img{
   position:relative;
   width:100%;
-  aspect-ratio:3/2.2;   /* más alto, más imponente */
+  height:100%;
+  min-height:520px;
   overflow:hidden;
-  border:1px solid rgba(0,255,136,.08);
+  border:none;
   flex-shrink:0;
+  align-self:stretch;
 }
 .det-header-img img{
   width:100%;
@@ -144,29 +147,29 @@
 
 .det-back{
   font-family:var(--ff-mono);
-  font-size:.68rem;          /* más grande */
+  font-size:.78rem;
   letter-spacing:.2em;
   text-transform:uppercase;
-  color:#888;                /* visible sobre blanco */
+  color:var(--violet);
   display:inline-flex;
   align-items:center;
   gap:.5rem;
   margin-bottom:2.5rem;
   transition:color .2s;
 }
-.det-back:hover{ color:var(--prog-accent, var(--green)) }
-.det-back::before{ content:'←'; color:var(--prog-accent, var(--green)) }
+.det-back:hover{ color:var(--violet-dim) }
+.det-back::before{ content:'←'; color:var(--violet) }
 
 .det-eyebrow{
   font-family:var(--ff-mono);
-  font-size:.75rem;          /* más grande */
+  font-size:.9rem;
   letter-spacing:.25em;
   text-transform:uppercase;
-  color:var(--prog-accent, var(--green));
+  color:var(--violet);
   display:flex;
   align-items:center;
   gap:.6rem;
-  margin-bottom:1rem;
+  margin-bottom:.6rem;
 }
 .det-eyebrow::before{ content:''; display:none }
 
@@ -175,34 +178,74 @@
   align-items:center;
   gap:.6rem;
   font-family:var(--ff-mono);
-  font-size:.65rem;          /* más grande */
+  font-size:.72rem;
   letter-spacing:.15em;
   text-transform:uppercase;
-  padding:.4rem 1rem;
-  margin-bottom:1.5rem;
-  border:1px solid var(--prog-badge-border, rgba(0,0,0,.15));
-  background:var(--prog-badge-bg, rgba(0,0,0,.04));
-  color:var(--prog-accent, #111);
+  padding:.45rem 1.1rem;
+  margin-bottom:1.8rem;
+  border:1px solid rgba(191,95,255,.3);
+  background:rgba(191,95,255,.07);
+  color:var(--violet);
   align-self:flex-start;
 }
-.det-badge-dot{ display:none }  /* elimina la barrita/dot */
+.det-badge-dot{ display:none }
 
+/* Línea "PROGRAMA" — rellena en violeta */
+.det-title-pre{
+  font-family:var(--ff-display);
+  font-weight:900;
+  font-style:italic;
+  font-size:clamp(3rem,6vw,7rem);
+  text-transform:uppercase;
+  letter-spacing:-.02em;
+  line-height:.9;
+  color:var(--violet);
+  text-shadow:0 0 40px rgba(191,95,255,.3);
+  display:block;
+  margin-bottom:.2rem;
+}
+/* Línea con el nombre del programa — outline + botón */
 .det-title{
   font-family:var(--ff-display);
   font-weight:900;
   font-style:italic;
-  font-size:clamp(5rem,11vw,12rem);  /* más grande */
+  font-size:clamp(5rem,11vw,13rem);
   text-transform:uppercase;
   letter-spacing:-.02em;
   line-height:.85;
   color:transparent;
-  -webkit-text-stroke:3px var(--prog-accent, var(--black));  /* trazo más grueso */
+  -webkit-text-stroke:3px var(--violet);
   text-shadow:none;
-  margin-bottom:1.5rem;
+  margin-bottom:2rem;
   display:flex;
-  align-items:baseline;
-  gap:1.5rem;
+  align-items:center;
+  gap:2rem;
   flex-wrap:wrap;
+}
+
+/* Botón de inscripción junto al título */
+.det-title-cta{
+  font-family:var(--ff-display);
+  font-size:1rem;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  background:var(--violet);
+  color:var(--white);
+  padding:.7rem 2rem;
+  border:none;
+  cursor:pointer;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition:all .25s;
+  box-shadow:0 0 20px rgba(191,95,255,.35);
+  font-style:normal;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.det-title-cta:hover{
+  background:var(--violet-dim);
+  box-shadow:0 0 36px rgba(191,95,255,.55);
+  transform:translateX(3px);
 }
 
 .det-popular{
@@ -751,6 +794,85 @@
   .det-title{ font-size:clamp(3.5rem,16vw,6rem) }
   .det-carousel-slide{ min-height:220px }
 }
+
+/* ══════════════════════════════
+   MODAL FORMULARIO
+══════════════════════════════ */
+.det-modal-overlay{
+  position:fixed;inset:0;background:rgba(5,5,5,.88);
+  backdrop-filter:blur(8px);z-index:9000;
+  display:flex;align-items:center;justify-content:center;padding:2rem;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.det-modal-overlay.open{ opacity:1;pointer-events:all }
+.det-modal{
+  background:var(--black);border:1px solid rgba(191,95,255,.25);
+  box-shadow:0 0 60px rgba(191,95,255,.15);
+  padding:3rem;width:100%;max-width:540px;position:relative;
+  transform:translateY(20px);transition:transform .3s ease;
+}
+.det-modal-overlay.open .det-modal{ transform:translateY(0) }
+.det-modal-close{
+  position:absolute;top:1.2rem;right:1.5rem;
+  background:none;border:none;font-family:var(--ff-mono);
+  font-size:.7rem;color:var(--muted);cursor:pointer;letter-spacing:.1em;transition:color .2s;
+}
+.det-modal-close:hover{ color:var(--white) }
+.det-modal-eyebrow{
+  font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--violet);margin-bottom:.8rem;
+}
+.det-modal-eyebrow::before{ content:'// ';color:var(--green) }
+.det-modal-title{
+  font-family:var(--ff-display);font-weight:900;font-style:italic;
+  font-size:2.4rem;text-transform:uppercase;color:var(--white);
+  margin-bottom:.4rem;line-height:.95;
+}
+.det-modal-sub{
+  font-family:var(--ff-mono);font-size:.58rem;color:var(--muted);
+  letter-spacing:.08em;margin-bottom:2rem;
+}
+.det-form{ display:flex;flex-direction:column;gap:1rem }
+.det-field{ display:flex;flex-direction:column;gap:.35rem }
+.det-field label{
+  font-family:var(--ff-mono);font-size:.52rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);
+}
+.det-field input,.det-field textarea,.det-field select{
+  background:#0a0a0a;border:1px solid #222;color:var(--white);
+  font-family:var(--ff-body);font-size:.9rem;padding:.7rem 1rem;
+  outline:none;transition:border-color .2s;width:100%;resize:none;appearance:none;
+}
+.det-field input:focus,.det-field textarea:focus,.det-field select:focus{
+  border-color:var(--violet);box-shadow:0 0 0 2px rgba(191,95,255,.1);
+}
+.det-field select option{ background:#0a0a0a }
+.det-form-row{ display:grid;grid-template-columns:1fr 1fr;gap:1rem }
+.det-form-submit{
+  font-family:var(--ff-display);font-size:.85rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  background:var(--violet);color:var(--white);border:none;
+  padding:.9rem;cursor:pointer;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition:all .25s;box-shadow:0 0 20px rgba(191,95,255,.3);
+  margin-top:.5rem;width:100%;
+}
+.det-form-submit:hover{ background:var(--violet-dim);box-shadow:0 0 36px rgba(191,95,255,.5) }
+.det-form-note{
+  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.1em;
+  color:var(--muted);text-transform:uppercase;text-align:center;
+}
+.det-form-success{
+  display:none;flex-direction:column;align-items:center;
+  gap:1rem;padding:2rem 0;text-align:center;
+}
+.det-form-success-icon{ font-size:2.5rem;color:var(--violet);font-family:var(--ff-display);font-weight:900 }
+.det-form-success-title{ font-family:var(--ff-display);font-weight:900;font-size:1.8rem;text-transform:uppercase;color:var(--white) }
+.det-form-success-sub{ font-family:var(--ff-mono);font-size:.6rem;color:var(--muted);letter-spacing:.1em }
+@media(max-width:560px){
+  .det-modal{ padding:2rem 1.5rem }
+  .det-form-row{ grid-template-columns:1fr }
+}
 </style>
 </head>
 <body>
@@ -795,6 +917,7 @@
         <span class="det-badge-dot"></span>
         <span id="det-badge-text"></span>
       </div>
+      <span class="det-title-pre">PROGRAMA</span>
       <h1 class="det-title" id="det-title"></h1>
       <p class="det-tagline" id="det-tagline"></p>
     </div>
@@ -881,6 +1004,61 @@
     <div class="det-footer-nav" id="det-footer-nav"></div>
   </div>
 
+</div>
+
+<!-- ══════ MODAL FORMULARIO ══════ -->
+<div class="det-modal-overlay" id="det-modal-overlay" role="dialog" aria-modal="true" aria-label="Formulario de inscripción">
+  <div class="det-modal">
+    <button class="det-modal-close" id="det-modal-close">✕ CERRAR</button>
+    <div class="det-modal-eyebrow">Inscripción</div>
+    <div class="det-modal-title" id="modal-prog-title">Programa PRO</div>
+    <div class="det-modal-sub">Completá tus datos y te contactamos en menos de 24 hs</div>
+
+    <!-- Formulario -->
+    <form class="det-form" id="det-form" novalidate>
+      <div class="det-form-row">
+        <div class="det-field">
+          <label for="f-nombre">Nombre</label>
+          <input type="text" id="f-nombre" name="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="det-field">
+          <label for="f-apellido">Apellido</label>
+          <input type="text" id="f-apellido" name="apellido" placeholder="Tu apellido" required>
+        </div>
+      </div>
+      <div class="det-field">
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" name="email" placeholder="tu@email.com" required>
+      </div>
+      <div class="det-field">
+        <label for="f-tel">Teléfono / WhatsApp</label>
+        <input type="tel" id="f-tel" name="telefono" placeholder="+54 11 0000-0000">
+      </div>
+      <div class="det-field">
+        <label for="f-exp">Experiencia en sim racing</label>
+        <select id="f-exp" name="experiencia">
+          <option value="">Seleccioná una opción</option>
+          <option value="ninguna">Sin experiencia previa</option>
+          <option value="basica">Básica (menos de 6 meses)</option>
+          <option value="intermedia">Intermedia (6 meses – 2 años)</option>
+          <option value="avanzada">Avanzada (más de 2 años)</option>
+        </select>
+      </div>
+      <div class="det-field">
+        <label for="f-msg">¿Algo que quieras contarnos? (opcional)</label>
+        <textarea id="f-msg" name="mensaje" rows="3" placeholder="Objetivos, preguntas, disponibilidad horaria…"></textarea>
+      </div>
+      <button type="submit" class="det-form-submit">Enviar Inscripción →</button>
+      <p class="det-form-note">Respuesta en menos de 24 hs · Cupos limitados</p>
+    </form>
+
+    <!-- Mensaje de éxito -->
+    <div class="det-form-success" id="det-form-success">
+      <div class="det-form-success-icon">✓</div>
+      <div class="det-form-success-title">¡Recibido!</div>
+      <div class="det-form-success-sub">Te contactamos en menos de 24 hs. Gracias por elegir APEX.</div>
+    </div>
+  </div>
 </div>
 
 <script>
