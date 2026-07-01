@@ -3,7 +3,29 @@
 ═══════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
+/* ══════════════════════════════════════════════════════
+     LÓGICA PÁGINA DETALLE (Agregar esto al inicio del JS)
+  ══════════════════════════════════════════════════════ */
+  if (window.location.pathname.includes('detalle.html')) {
+    const params = new URLSearchParams(window.location.search);
+    const tipo = params.get('prog');
+    
+    // Base de datos de información
+    const info = {
+        'entry': { titulo: 'PROGRAMA ENTRY', desc: 'Introducción técnica al sim racing con telemetría básica.' },
+        'pro':   { titulo: 'PROGRAMA PRO', desc: '8 sesiones intensivas con análisis de datos y psicología de carrera.' },
+        'elite': { titulo: 'PROGRAMA ELITE', desc: 'Entrenamiento total: Telemetría avanzada, coach personal y plan físico.' }
+    };
 
+    const tituloEl = document.getElementById('titulo-programa');
+    const descEl = document.getElementById('contenido-programa');
+    
+    if (tituloEl && descEl && info[tipo]) {
+        tituloEl.textContent = info[tipo].titulo;
+        descEl.innerHTML = `<p>${info[tipo].desc}</p>`;
+    }
+    return; // Esto evita que el resto del JS (carruseles/animaciones) intente ejecutarse en detalle.html
+  }
   /* ── CUSTOM CURSOR ── */
   const cursor = document.getElementById('cursor');
   const ring   = document.getElementById('cursor-ring');
