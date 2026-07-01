@@ -34,25 +34,111 @@
   border-bottom:1px solid #111;
   position:relative;
   overflow:hidden;
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:4rem;
+  align-items:center;
 }
-/* Watermark del nombre del programa — seteado por JS */
-.det-header::before{
-  content:attr(data-prog-name);
+.det-header-left{ display:flex; flex-direction:column }
+
+/* ── FOTO CON HUD ── */
+.det-header-img{
+  position:relative;
+  width:100%;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  border:1px solid rgba(0,255,136,.08);
+  flex-shrink:0;
+}
+.det-header-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(.85) brightness(.9);
+}
+/* Overlay oscuro en degradado */
+.det-header-img::after{
+  content:'';
   position:absolute;
-  right:-1rem;
-  top:50%;
-  transform:translateY(-50%);
-  font-family:var(--ff-display);
-  font-weight:900;
-  font-style:italic;
-  font-size:clamp(7rem,18vw,18rem);
-  color:transparent;
+  inset:0;
+  background:linear-gradient(135deg, rgba(5,5,5,.55) 0%, transparent 60%, rgba(5,5,5,.35) 100%);
   pointer-events:none;
-  user-select:none;
-  line-height:1;
-  letter-spacing:-.03em;
-  /* color del stroke seteado por JS via var */
-  -webkit-text-stroke:1px var(--prog-stroke, rgba(255,255,255,.04));
+}
+/* Brackets en esquinas — igual que el hero */
+.det-img-bracket{
+  position:absolute;
+  width:16px;
+  height:16px;
+  z-index:2;
+  pointer-events:none;
+}
+.det-img-bracket.tl{ top:10px; left:10px; border-top:1.5px solid var(--prog-accent,var(--green)); border-left:1.5px solid var(--prog-accent,var(--green)); }
+.det-img-bracket.tr{ top:10px; right:10px; border-top:1.5px solid var(--prog-accent,var(--green)); border-right:1.5px solid var(--prog-accent,var(--green)); }
+.det-img-bracket.bl{ bottom:10px; left:10px; border-bottom:1.5px solid var(--violet); border-left:1.5px solid var(--violet); }
+.det-img-bracket.br{ bottom:10px; right:10px; border-bottom:1.5px solid var(--violet); border-right:1.5px solid var(--violet); }
+/* HUD overlay — igual estética que foto1 */
+.det-img-hud{
+  position:absolute;
+  top:.8rem;
+  left:.8rem;
+  right:.8rem;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  gap:.35rem;
+  pointer-events:none;
+}
+.det-hud-row{
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--ff-mono);
+  font-size:.52rem;
+  color:rgba(242,242,242,.45);
+}
+.det-hud-val{ color:var(--prog-accent, var(--green)) }
+.det-hud-val.v{ color:var(--violet) }
+/* Barra RPM lateral */
+.det-img-rpm{
+  position:absolute;
+  right:8px;
+  top:10%;
+  height:80%;
+  width:4px;
+  background:#111;
+  border-radius:2px;
+  overflow:hidden;
+  z-index:3;
+}
+.det-img-rpm-fill{
+  width:100%;
+  background:linear-gradient(to top, var(--prog-accent, var(--green)), var(--violet));
+  border-radius:2px;
+  animation:rpmPulse 1.8s ease-in-out infinite alternate;
+}
+/* REC badge */
+.det-img-rec{
+  position:absolute;
+  top:.8rem;
+  right:1.4rem;
+  z-index:3;
+  font-family:var(--ff-mono);
+  font-size:.48rem;
+  letter-spacing:.15em;
+  color:rgba(242,242,242,.6);
+  display:flex;
+  align-items:center;
+  gap:.3rem;
+}
+.det-img-rec::before{
+  content:'';
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#ff3333;
+  display:inline-block;
+  animation:blink 1.2s infinite;
+  box-shadow:0 0 6px rgba(255,51,51,.7);
 }
 
 .det-back{
@@ -114,8 +200,10 @@
   text-transform:uppercase;
   letter-spacing:-.02em;
   line-height:.85;
-  color:var(--prog-accent, var(--white));
-  text-shadow:0 0 60px var(--prog-glow, rgba(255,255,255,.1));
+  /* OUTLINE — sin relleno, solo trazo del color del nivel */
+  color:transparent;
+  -webkit-text-stroke:2px var(--prog-accent, var(--white));
+  text-shadow:none;
   margin-bottom:1.5rem;
   display:flex;
   align-items:baseline;
@@ -555,16 +643,21 @@
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
+@media(max-width:1100px){
+  .det-header{ grid-template-columns:1fr 340px; gap:2.5rem }
+}
 @media(max-width:900px){
+  .det-header{ grid-template-columns:1fr; gap:2.5rem; padding:3rem 2rem 2.5rem }
+  .det-header-img{ max-width:520px }
   .det-body{ grid-template-columns:1fr }
   .det-aside{ border-left:none; border-top:1px solid #111 }
-  .det-header{ padding:3rem 2rem 2.5rem }
   .det-main{ padding:3rem 2rem }
   .det-aside{ padding:2.5rem 2rem }
   .det-footer{ padding:2rem }
 }
 @media(max-width:480px){
   .det-header,.det-main,.det-aside{ padding:2.5rem 1.5rem }
+  .det-header-img{ display:none }
   .det-footer{ padding:1.5rem }
   .det-cta-row{ flex-direction:column; align-items:flex-start }
   .btn-primary,.btn-ghost,.btn-elite{ width:100%; text-align:center; justify-content:center; display:block }
@@ -605,25 +698,63 @@
 
   <!-- ── HEADER ── -->
   <div class="det-header" id="det-header">
-    <a href="index.html#programas" class="det-back">Volver a programas</a>
-    <div class="det-eyebrow">Programas de Pilotos</div>
-    <div class="det-badge" id="det-badge">
-      <span class="det-badge-dot"></span>
-      <span id="det-badge-text"></span>
-    </div>
-    <h1 class="det-title" id="det-title"></h1>
-    <p class="det-tagline" id="det-tagline"></p>
 
-    <div class="det-price-block">
-      <div class="det-price" id="det-price"></div>
-      <div class="det-price-meta">
-        <div class="det-price-period" id="det-price-period"></div>
-        <div class="det-price-note" id="det-price-note"></div>
+    <!-- IZQUIERDA -->
+    <div class="det-header-left">
+      <a href="index.html#programas" class="det-back">Volver a programas</a>
+      <div class="det-eyebrow">Programas de Pilotos</div>
+      <div class="det-badge" id="det-badge">
+        <span class="det-badge-dot"></span>
+        <span id="det-badge-text"></span>
       </div>
+      <h1 class="det-title" id="det-title"></h1>
+      <p class="det-tagline" id="det-tagline"></p>
+
+      <div class="det-price-block">
+        <div class="det-price" id="det-price"></div>
+        <div class="det-price-meta">
+          <div class="det-price-period" id="det-price-period"></div>
+          <div class="det-price-note" id="det-price-note"></div>
+        </div>
+      </div>
+
+      <div class="det-cta-row" id="det-cta-row"></div>
+      <p class="det-cta-note">Cupos limitados · Respuesta en menos de 24 hs</p>
     </div>
 
-    <div class="det-cta-row" id="det-cta-row"></div>
-    <p class="det-cta-note">Cupos limitados · Respuesta en menos de 24 hs</p>
+    <!-- DERECHA — foto con HUD -->
+    <div class="det-header-img">
+      <img src="foto13.png" alt="Piloto APEX en simulador" draggable="false">
+      <!-- Brackets -->
+      <div class="det-img-bracket tl"></div>
+      <div class="det-img-bracket tr"></div>
+      <div class="det-img-bracket bl"></div>
+      <div class="det-img-bracket br"></div>
+      <!-- HUD -->
+      <div class="det-img-hud">
+        <div class="det-hud-row">
+          <span>PILOT CAM</span>
+          <span></span>
+        </div>
+        <div class="det-hud-row">
+          <span>SPEED</span>
+          <span class="det-hud-val" id="hud-speed">275 km/h</span>
+        </div>
+        <div class="det-hud-row">
+          <span>THROTTLE</span>
+          <span class="det-hud-val v">97%</span>
+        </div>
+        <div class="det-hud-row">
+          <span>BRAKE</span>
+          <span class="det-hud-val">0%</span>
+        </div>
+      </div>
+      <!-- REC -->
+      <div class="det-img-rec">REC</div>
+      <!-- Barra RPM -->
+      <div class="det-img-rpm"><div class="det-img-rpm-fill"></div></div>
+    </div>
+
   </div>
 
   <!-- ── BODY ── -->
@@ -972,6 +1103,18 @@ const PROGRAMAS = {
   fnHTML += `<a href="index.html#cta">Contacto</a>`;
   footerNav.innerHTML = fnHTML;
 
+})();
+
+/* ── HUD speed flicker ── */
+(function(){
+  const el = document.getElementById('hud-speed');
+  if(!el) return;
+  function flicker(){
+    const v = 248 + Math.floor(Math.random() * 50);
+    el.textContent = v + ' km/h';
+    setTimeout(flicker, 500 + Math.random() * 400);
+  }
+  flicker();
 })();
 
 /* ══════════════════════════════
