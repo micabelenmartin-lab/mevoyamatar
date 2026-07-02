@@ -867,7 +867,7 @@
   <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
-  <button class="nav-cta" onclick="window.location.href='mailto:info@apexsimracing.com'">
+  <button class="nav-cta" id="nav-cta-inscribirme">
     Inscribirme
   </button>
 </nav>
@@ -1274,6 +1274,9 @@ detForm.addEventListener('submit', async function(e){
   const titleEl = document.getElementById('det-title');
   titleEl.textContent = p.nombre;
 
+  // Guardamos el nombre del programa actual para el botón "Inscribirme" del nav
+  window.currentProgramName = p.nombre;
+
   // Tagline
   document.getElementById('det-tagline').textContent = p.tagline;
 
@@ -1466,6 +1469,10 @@ document.addEventListener('mouseenter', () => { cursor.style.opacity='1'; ring.s
 
 const navToggle = document.getElementById('nav-toggle');
 const navLinks  = document.getElementById('nav-links');
+const navCtaInscribirme = document.getElementById('nav-cta-inscribirme');
+if(navCtaInscribirme){
+  navCtaInscribirme.addEventListener('click', () => openDetModal(window.currentProgramName || 'PRO'));
+}
 if(navToggle && navLinks){
   navToggle.addEventListener('click', () => {
     const o = navLinks.classList.toggle('open');
