@@ -284,40 +284,18 @@
 .det-price{
   font-family:var(--ff-display);
   font-weight:900;
-  font-size:clamp(3rem,6vw,5.5rem);
+  font-size:clamp(6rem,13vw,15rem);
   color:var(--white);
-  line-height:1;
+  line-height:.85;
   flex-shrink:0;
 }
 
 /* Bloque de info debajo del título+precio: período, nota y CTAs */
 .det-info-below{
-  margin-top:1rem;
-  padding-top:2.5rem;
+  margin-top:0;
+  padding-top:1rem;
   border-top:1px solid #161616;
 }
-.det-price-meta{
-  display:flex;
-  flex-direction:column;
-  gap:.2rem;
-}
-.det-price-period{
-  font-family:var(--ff-mono);
-  font-size:.75rem;
-  font-weight:700;
-  letter-spacing:.12em;
-  color:var(--muted);
-  text-transform:uppercase;
-}
-.det-price-note{
-  font-family:var(--ff-mono);
-  font-size:.65rem;
-  font-weight:600;
-  letter-spacing:.1em;
-  color:var(--prog-accent-dim, rgba(255,255,255,.15));
-  text-transform:uppercase;
-}
-
 /* CTAs */
 .det-cta-row{
   display:flex;
@@ -960,11 +938,7 @@
       <p class="det-tagline" id="det-tagline"></p>
 
       <div class="det-info-below">
-        <div class="det-price-meta">
-          <div class="det-price-period" id="det-price-period"></div>
-          <div class="det-price-note" id="det-price-note"></div>
-        </div>
-        <div class="det-cta-row" id="det-cta-row"></div>
+        <div class="det-cta-row" id="det-cta-row" style="margin-top:0"></div>
         <p class="det-cta-note">Cupos limitados · Respuesta en menos de 24 hs</p>
       </div>
     </div>
@@ -1349,9 +1323,7 @@ detForm.addEventListener('submit', async function(e){
   document.getElementById('det-tagline').textContent = p.tagline;
 
   // Precio
-  document.getElementById('det-price').textContent        = p.precio;
-  document.getElementById('det-price-period').textContent = p.precioPer;
-  document.getElementById('det-price-note').textContent   = p.precioNota;
+  document.getElementById('det-price').textContent = p.precio;
 
   // CTA row
   const ctaRow  = document.getElementById('det-cta-row');
