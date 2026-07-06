@@ -276,8 +276,15 @@
   animation:blink 1.2s infinite;
 }
 
+/* Tagline — ahora visible como bajada explicativa debajo del título+precio */
 .det-tagline{
-  display:none; /* eliminado del header — el contenido está en el body */
+  display:block;
+  font-size:1.12rem;
+  color:#999;
+  font-weight:400;
+  line-height:1.75;
+  max-width:600px;
+  margin:0 0 2rem;
 }
 
 /* Precio — ahora al lado del título */
@@ -384,6 +391,44 @@
   letter-spacing:.04em;
   color:var(--white);
   margin-bottom:1.2rem;
+}
+
+/* ══════════════════════════════
+   REQUISITOS — "¿Es para vos?"
+══════════════════════════════ */
+.det-req-list{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:1.1rem;
+  margin-bottom:1.8rem;
+}
+.det-req-item{
+  display:flex;
+  align-items:flex-start;
+  gap:1rem;
+  font-size:1.02rem;
+  color:var(--white);
+  font-weight:400;
+  line-height:1.55;
+}
+.det-req-item::before{
+  content:'✓';
+  font-family:var(--ff-mono);
+  font-weight:700;
+  font-size:.85rem;
+  color:var(--prog-accent, var(--green));
+  flex-shrink:0;
+  margin-top:.15rem;
+}
+.det-req-nota{
+  font-size:.92rem;
+  color:#888;
+  font-weight:400;
+  line-height:1.75;
+  padding:1.3rem 1.5rem;
+  border-left:2px solid var(--prog-accent, var(--green));
+  background:var(--prog-bg-subtle, rgba(0,255,136,.02));
 }
 
 /* ══════════════════════════════
@@ -1277,7 +1322,7 @@ detForm.addEventListener('submit', async function(e){
   // Guardamos el nombre del programa actual para el botón "Inscribirme" del nav
   window.currentProgramName = p.nombre;
 
-  // Tagline
+  // Tagline (ahora visible, debajo del título+precio)
   document.getElementById('det-tagline').textContent = p.tagline;
 
   // Precio
@@ -1300,7 +1345,21 @@ detForm.addEventListener('submit', async function(e){
   /* ── MAIN ── */
   const main = document.getElementById('det-main');
 
-  // Timeline
+  // 1) Requisitos — "¿Es para vos?" (va primero: qualifica al lector antes del cronograma)
+  let reqHTML = `
+    <div class="det-section">
+      <div class="det-section-label">¿Es para vos?</div>
+      <div class="det-section-title">Este programa te sirve si…</div>
+      <ul class="det-req-list">
+  `;
+  p.requisitos.forEach(r => {
+    reqHTML += `<li class="det-req-item">${r}</li>`;
+  });
+  reqHTML += `</ul>`;
+  reqHTML += `<div class="det-req-nota">${p.reqNota}</div>`;
+  reqHTML += `</div>`;
+
+  // 2) Cronograma — el plan concreto, una vez que el lector ya se identificó con el programa
   let tlHTML = `
     <div class="det-section">
       <div class="det-section-label">Cronograma</div>
@@ -1321,7 +1380,7 @@ detForm.addEventListener('submit', async function(e){
   });
   tlHTML += `</div></div>`;
 
-  main.innerHTML = tlHTML;
+  main.innerHTML = reqHTML + tlHTML;
 
   /* ── ASIDE ── */
   const aside = document.getElementById('det-aside');
