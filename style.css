@@ -507,13 +507,16 @@ section{padding:7rem 3rem}
 
 /* ══════════════════════════════
    PROGRAMAS
+   — Tarjetas más chicas, con espacio real
+     entre ellas para que entren en una
+     sola pantalla de scroll
 ══════════════════════════════ */
 #programas{
     background:var(--violet-dim);
     border-top:1px solid #111;
     position:relative;
-    padding-top:4.5rem;
-    padding-bottom:7rem;
+    padding-top:3rem;
+    padding-bottom:3.5rem;
     background-image:repeating-linear-gradient(
         0deg,
         rgba(0,0,0,.12) 0px,
@@ -531,13 +534,23 @@ section{padding:7rem 3rem}
 .prog-header{
     display:flex;
     flex-direction:column;
-    gap:.8rem;
-    margin-bottom:3rem;
+    gap:.6rem;
+    margin-bottom:1.8rem;
 }
-.prog-header .sec-sub{font-size:1rem;max-width:100%;color:var(--white)}
-.prog-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111}
+.prog-header .sec-title{font-size:clamp(2rem,3.6vw,3.6rem)}
+.prog-header .sec-sub{font-size:.85rem;max-width:100%;color:var(--white)}
+
+/* Grid con espacio real entre tarjetas (antes era gap:1px con fondo compartido) */
+.prog-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.4rem;
+}
 .prog-card{
-  background:var(--black);padding:3.5rem 2.8rem;
+  background:var(--black);
+  padding:1.7rem 1.5rem;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,.06);
   position:relative;overflow:hidden;
   border-top:3px solid transparent;transition:border-color .3s,transform .3s;
   display:flex;flex-direction:column;
@@ -556,25 +569,25 @@ section{padding:7rem 3rem}
 .prog-card.entry-card .prog-glow{background:rgba(242,242,242,.12)}
 .prog-card:hover .prog-glow{opacity:1}
 .prog-badge{
-  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.15em;
-  text-transform:uppercase;padding:.3rem .7rem;display:inline-block;
+  font-family:var(--ff-mono);font-size:.42rem;letter-spacing:.13em;
+  text-transform:uppercase;padding:.22rem .55rem;display:inline-block;
 }
 .prog-header-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:1.2rem;
+  margin-bottom:.7rem;
 }
 /* ── BARRAS DE NIVEL — estilo diagonal ── */
 .prog-level-bars{
   display:flex;
-  gap:4px;
+  gap:3px;
   align-items:center;
 }
 .bar{
   display:inline-block;
-  width:8px;
-  height:20px;
+  width:6px;
+  height:14px;
   transform:skewX(-16deg);
   flex-shrink:0;
 }
@@ -589,21 +602,21 @@ section{padding:7rem 3rem}
 .b-featured{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)}
 .b-elite{background:rgba(191,95,255,.1);color:var(--violet);border:1px solid rgba(191,95,255,.2)}
 .b-entry{background:rgba(242,242,242,.08);color:var(--white);border:1px solid rgba(242,242,242,.2)}
-.prog-name{font-family:var(--ff-display);font-weight:900;font-size:3.2rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.3rem;color:var(--white)}
-.prog-tagline{font-size:.92rem;color:var(--white);margin-bottom:2rem;font-weight:300}
-.prog-divider{border:none;border-top:1px solid #282828;margin-bottom:2rem}
-.prog-features{list-style:none;display:flex;flex-direction:column;gap:.85rem;margin-bottom:2.5rem;flex:1}
-.prog-features li{font-size:.94rem;color:var(--white);font-weight:300;display:flex;align-items:flex-start;gap:.7rem;line-height:1.45}
-.prog-features li::before{content:'→';color:var(--green);flex-shrink:0;font-size:.68rem;margin-top:.15rem}
+.prog-name{font-family:var(--ff-display);font-weight:900;font-size:1.9rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.2rem;color:var(--white)}
+.prog-tagline{font-size:.76rem;color:var(--white);margin-bottom:1rem;font-weight:300;line-height:1.4}
+.prog-divider{border:none;border-top:1px solid #282828;margin-bottom:1rem}
+.prog-features{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.3rem;flex:1}
+.prog-features li{font-size:.76rem;color:var(--white);font-weight:300;display:flex;align-items:flex-start;gap:.55rem;line-height:1.35}
+.prog-features li::before{content:'→';color:var(--green);flex-shrink:0;font-size:.6rem;margin-top:.1rem}
 .elite-card .prog-features li::before{color:var(--violet)}
-.prog-price{font-family:var(--ff-display);font-weight:900;font-size:3.6rem;color:var(--white);line-height:1;margin-bottom:.2rem}
-.prog-period{font-size:.84rem;color:var(--white);font-family:var(--ff-mono)}
+.prog-price{font-family:var(--ff-display);font-weight:900;font-size:2.1rem;color:var(--white);line-height:1;margin-bottom:.15rem}
+.prog-period{font-size:.7rem;color:var(--white);font-family:var(--ff-mono)}
 .prog-cta{
-  margin-top:2rem;width:100%;
-  font-family:var(--ff-display);font-size:.7rem;font-weight:700;
-  letter-spacing:.15em;text-transform:uppercase;
+  margin-top:1rem;width:100%;
+  font-family:var(--ff-display);font-size:.62rem;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
   background:transparent;color:var(--white);
-  padding:.75rem;border:1px solid #252525;
+  padding:.6rem;border:1px solid #252525;
   transition:all .25s;display:block;text-align:center;
 }
 .prog-cta:hover{background:#111;border-color:#444}
@@ -854,6 +867,8 @@ footer{
   .hero-headline{font-size:clamp(3.5rem,6vw,6rem)}
   .exp-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
+  .prog-cards{gap:1rem}
+  .prog-card{padding:1.5rem 1.3rem}
   .academy-inner{gap:3.5rem}
   .testi-grid{grid-template-columns:1fr}
 }
@@ -885,8 +900,8 @@ footer{
   .media-strip{grid-template-columns:1fr}
 
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
-  .prog-cards{grid-template-columns:1fr}
-  .prog-card{padding:2rem 1.5rem}
+  .prog-cards{grid-template-columns:1fr;gap:1rem}
+  .prog-card{padding:1.6rem 1.4rem}
 
   .tech-grid{grid-template-columns:1fr}
   .tech-item{grid-template-columns:40px 1fr;gap:1.2rem;padding:2rem 1.5rem}
