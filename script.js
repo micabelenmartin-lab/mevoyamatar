@@ -324,5 +324,29 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(setupCarousels, 200);
   });
+/*═══════════════════════════════
+      MEDIA SLIDER
+═══════════════════════════════*/
 
+const mediaSlides = document.querySelectorAll(".media-slide");
+
+if(mediaSlides.length){
+
+    let current = 0;
+
+    setInterval(()=>{
+
+        mediaSlides[current].classList.remove("active");
+
+        current++;
+
+        if(current >= mediaSlides.length){
+            current = 0;
+        }
+
+        mediaSlides[current].classList.add("active");
+
+    },3000);
+
+}
 });
