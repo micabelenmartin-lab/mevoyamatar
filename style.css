@@ -932,6 +932,7 @@ footer{
   .exp-name{font-size:1.7rem}
   .exp-desc{font-size:.8rem}
   .media-strip{grid-template-columns:1fr}
+  .media-slider{margin-top:1.5rem}
 
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-cards{grid-template-columns:1fr;gap:1rem}
