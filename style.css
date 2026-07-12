@@ -802,7 +802,7 @@ section{padding:7rem 3rem}
 .prog-inner{
   position:relative;
   width:100%;
-  min-height:560px;
+  min-height:460px;
   transition:transform .75s cubic-bezier(.22,1,.36,1);
   transform-style:preserve-3d;
   cursor:pointer;
@@ -819,7 +819,7 @@ section{padding:7rem 3rem}
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  padding:1.9rem 1.6rem;
+  padding:1.5rem 1.4rem;
 }
 
 /* ── FRONT ── */
@@ -846,7 +846,7 @@ section{padding:7rem 3rem}
 
 .prog-front .prog-header-row{margin-bottom:.9rem}
 .prog-front .prog-cta{
-  margin-top:0;padding:1.05rem;font-size:.76rem;letter-spacing:.16em;
+  margin-top:0;padding:.85rem;font-size:.74rem;letter-spacing:.16em;
 }
 
 /* ── NOISE + CORNERS — detalle HUD siempre visible en el frente ── */
@@ -864,12 +864,12 @@ section{padding:7rem 3rem}
 .prog-front-content{
   position:relative;z-index:1;
   display:flex;flex-direction:column;flex:1;
-  margin-top:1.6rem;
+  margin-top:1.1rem;
 }
 
 /* ── TELROW — línea de código estilo telemetría ── */
 .prog-telrow{
-  display:flex;align-items:center;gap:.55rem;margin-bottom:1.3rem;
+  display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem;
 }
 .prog-tel-dot{
   width:6px;height:6px;border-radius:50%;flex-shrink:0;
@@ -883,10 +883,10 @@ section{padding:7rem 3rem}
 }
 
 /* ── TITLE — nombre grande itálico + índice numérico ── */
-.prog-title-row{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.5rem}
+.prog-title-row{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.4rem}
 .prog-title{
   font-family:var(--ff-display);font-weight:900;font-style:italic;
-  font-size:2.7rem;text-transform:uppercase;line-height:.9;
+  font-size:2.3rem;text-transform:uppercase;line-height:.9;
   letter-spacing:.01em;color:var(--white);margin:0;
 }
 .featured .prog-title{color:var(--green)}
@@ -897,24 +897,24 @@ section{padding:7rem 3rem}
 }
 
 .prog-hook{
-  font-size:.86rem;font-weight:400;line-height:1.45;
+  font-size:.82rem;font-weight:400;line-height:1.4;
   color:var(--white);opacity:.82;
 }
 
 /* ── STATS — grilla de lectura estilo dashboard ── */
 .prog-stats{
   display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;
-  margin-top:1.3rem;padding-top:1.1rem;
+  margin-top:.9rem;padding-top:.8rem;
   border-top:1px solid rgba(255,255,255,.08);
 }
 .prog-stat{
   display:flex;flex-direction:column;gap:.2rem;
-  padding:.55rem .25rem;text-align:center;
+  padding:.45rem .25rem;text-align:center;
   border:1px solid rgba(255,255,255,.08);
   background:rgba(255,255,255,.02);
 }
 .prog-stat-num{
-  font-family:var(--ff-display);font-weight:800;font-size:1.25rem;
+  font-family:var(--ff-display);font-weight:800;font-size:1.15rem;
   color:var(--white);line-height:1;
 }
 .featured .prog-stat-num{color:var(--green)}
@@ -926,10 +926,10 @@ section{padding:7rem 3rem}
 
 /* ── READOUT — precio como lectura digital ── */
 .prog-readout{
-  margin-top:1.3rem;padding:.85rem 1rem;
+  margin-top:.9rem;padding:.65rem .9rem;
   border:1px solid rgba(255,255,255,.12);
   background:rgba(255,255,255,.02);
-  display:flex;flex-direction:column;gap:.25rem;
+  display:flex;flex-direction:column;gap:.2rem;
 }
 .featured .prog-readout{border-color:rgba(0,255,136,.18)}
 .elite-card .prog-readout{border-color:rgba(191,95,255,.2)}
@@ -938,7 +938,7 @@ section{padding:7rem 3rem}
   text-transform:uppercase;color:var(--muted);
 }
 .prog-readout-val{
-  font-family:var(--ff-display);font-weight:900;font-size:1.9rem;
+  font-family:var(--ff-display);font-weight:900;font-size:1.6rem;
   color:var(--white);line-height:1;
 }
 .featured .prog-readout-val{color:var(--green)}
@@ -1419,12 +1419,12 @@ footer{
 
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-cards{grid-template-columns:1fr;gap:1rem}
-  .prog-front,.prog-back{padding:1.6rem 1.4rem}
-  .prog-inner{min-height:580px}
-  .prog-title{font-size:2.3rem}
-  .prog-hook{font-size:.84rem}
-  .prog-stat-num{font-size:1.1rem}
-  .prog-readout-val{font-size:1.7rem}
+  .prog-front,.prog-back{padding:1.4rem 1.3rem}
+  .prog-inner{min-height:480px}
+  .prog-title{font-size:2.1rem}
+  .prog-hook{font-size:.8rem}
+  .prog-stat-num{font-size:1.05rem}
+  .prog-readout-val{font-size:1.5rem}
 
   .tech-item{aspect-ratio:4/3;padding:1.6rem 1.8rem 1.8rem}
   .tech-media{grid-template-columns:1fr}
