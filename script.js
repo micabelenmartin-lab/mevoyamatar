@@ -166,20 +166,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── PROG CARD MAGNETIC TILT ── */
+  /* ── FLIP CARDS: PROGRAMAS ── */
   document.querySelectorAll('.prog-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r  = card.getBoundingClientRect();
-      const cx = r.left + r.width  / 2;
-      const cy = r.top  + r.height / 2;
-      const dx = (e.clientX - cx) / (r.width  / 2);
-      const dy = (e.clientY - cy) / (r.height / 2);
-      card.style.transform = `perspective(600px) rotateY(${dx * 4}deg) rotateX(${-dy * 3}deg) translateY(-4px)`;
+    const flip = () => card.classList.toggle('flipped');
+
+    card.addEventListener('click', flip);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        flip();
+      }
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform  = '';
-      card.style.transition = 'transform .5s ease';
-    });
+
+    // El botón "Comenzar" navega directo, sin disparar el flip
+    const cta = card.querySelector('.prog-cta');
+    if (cta) cta.addEventListener('click', e => e.stopPropagation());
   });
 
   /* ── SCROLL PROGRESS BAR ── */
