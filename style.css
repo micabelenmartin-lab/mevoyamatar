@@ -840,19 +840,28 @@ section{padding:7rem 3rem}
 .featured:hover .prog-flip-hint{color:var(--green)}
 .elite-card:hover .prog-flip-hint{color:var(--violet)}
 
-.prog-front .prog-name{font-size:2.9rem;margin-top:.5rem;margin-bottom:0}
-.prog-front-fill{flex:1;position:relative;display:flex;align-items:center}
-.prog-ghost-num{
-  font-family:var(--ff-display);font-weight:900;font-size:7rem;
-  line-height:1;color:transparent;
-  -webkit-text-stroke:1.5px rgba(255,255,255,.09);
-  user-select:none;pointer-events:none;
+.prog-front .prog-flip-hint{top:1.3rem}
+.prog-price-lockup{margin-top:1.6rem}
+.prog-front .prog-price{font-size:3.7rem;line-height:1}
+.prog-front .prog-period{font-size:.8rem;margin-top:.15rem;color:var(--muted)}
+
+.prog-front .prog-name{
+  font-size:1.5rem;margin-top:.9rem;margin-bottom:0;
+  letter-spacing:.05em;color:var(--white);
 }
-.featured .prog-ghost-num{-webkit-text-stroke:1.5px rgba(0,255,136,.16)}
-.elite-card .prog-ghost-num{-webkit-text-stroke:1.5px rgba(191,95,255,.18)}
-.prog-price-block{margin-bottom:1.3rem}
-.prog-front .prog-price{font-size:3.2rem}
-.prog-front .prog-period{font-size:.78rem}
+.featured .prog-front .prog-name{color:var(--green)}
+.elite-card .prog-front .prog-name{color:var(--violet)}
+
+.prog-front-rule{
+  width:36px;height:2px;margin-top:.7rem;
+  background:var(--white);
+}
+.featured .prog-front-rule{background:var(--green)}
+.elite-card .prog-front-rule{background:var(--violet)}
+
+.prog-front-fill{flex:1}
+
+.prog-front .prog-header-row{margin-bottom:.9rem}
 .prog-front .prog-cta{
   margin-top:0;padding:1.05rem;font-size:.76rem;letter-spacing:.16em;
 }
@@ -1297,10 +1306,9 @@ footer{
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-cards{grid-template-columns:1fr;gap:1rem}
   .prog-front,.prog-back{padding:1.6rem 1.4rem}
-  .prog-inner{min-height:440px}
-  .prog-front .prog-name{font-size:2.4rem}
-  .prog-front .prog-price{font-size:2.7rem}
-  .prog-ghost-num{font-size:5.5rem}
+  .prog-inner{min-height:400px}
+  .prog-front .prog-price{font-size:3rem}
+  .prog-front .prog-name{font-size:1.3rem}
 
   .tech-item{aspect-ratio:4/3;padding:1.6rem 1.8rem 1.8rem}
   .tech-media{grid-template-columns:1fr}
