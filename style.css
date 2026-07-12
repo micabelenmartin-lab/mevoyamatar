@@ -802,7 +802,7 @@ section{padding:7rem 3rem}
 .prog-inner{
   position:relative;
   width:100%;
-  min-height:480px;
+  min-height:560px;
   transition:transform .75s cubic-bezier(.22,1,.36,1);
   transform-style:preserve-3d;
   cursor:pointer;
@@ -842,15 +842,8 @@ section{padding:7rem 3rem}
 
 .prog-front .prog-flip-hint{top:1.3rem}
 
-.prog-front-icon{
-  width:30px;height:30px;margin-top:.2rem;
-  color:var(--white);opacity:.85;
-}
-.featured .prog-front-icon{color:var(--green);filter:drop-shadow(0 0 6px rgba(0,255,136,.35))}
-.elite-card .prog-front-icon{color:var(--violet);filter:drop-shadow(0 0 6px rgba(191,95,255,.35))}
-
 .prog-front .prog-name{
-  font-size:3rem;margin-top:.7rem;margin-bottom:0;
+  font-size:3rem;margin-top:0;margin-bottom:0;
   letter-spacing:.02em;color:var(--white);line-height:1;
 }
 .featured .prog-front .prog-name{color:var(--green)}
@@ -872,6 +865,39 @@ section{padding:7rem 3rem}
 .prog-front .prog-header-row{margin-bottom:.9rem}
 .prog-front .prog-cta{
   margin-top:0;padding:1.05rem;font-size:.76rem;letter-spacing:.16em;
+}
+
+/* ── HOOK — bajada fuerte debajo del nombre ── */
+.prog-hook{
+  font-size:.92rem;font-weight:500;line-height:1.42;
+  color:var(--white);opacity:.88;margin-top:.55rem;
+}
+
+/* ── HIGHLIGHTS — bullets de venta en el frente, sin iconos ── */
+.prog-highlights{
+  list-style:none;display:flex;flex-direction:column;
+  gap:.5rem;margin-top:1rem;
+}
+.prog-highlights li{
+  font-size:.82rem;font-weight:400;line-height:1.35;color:var(--white);
+  display:flex;align-items:flex-start;gap:.5rem;
+}
+.prog-highlights li::before{
+  content:'✓';flex-shrink:0;font-weight:800;font-size:.78rem;
+  color:var(--white);margin-top:.05rem;
+}
+.featured .prog-highlights li::before{color:var(--green)}
+.elite-card .prog-highlights li::before{color:var(--violet)}
+
+/* ── RIBBON — cinta diagonal "Más elegido" en PRO ── */
+.prog-ribbon{
+  position:absolute;top:18px;right:-38px;z-index:3;
+  background:var(--green);color:var(--black);
+  font-family:var(--ff-display);font-weight:800;font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.4rem 2.8rem;transform:rotate(40deg);
+  box-shadow:0 4px 14px rgba(0,255,136,.4);
+  pointer-events:none;
 }
 
 /* ── BACK ── */
@@ -1314,10 +1340,11 @@ footer{
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-cards{grid-template-columns:1fr;gap:1rem}
   .prog-front,.prog-back{padding:1.6rem 1.4rem}
-  .prog-inner{min-height:400px}
+  .prog-inner{min-height:560px}
   .prog-front .prog-name{font-size:2.4rem}
   .prog-front .prog-price{font-size:1.6rem}
-  .prog-front-icon{width:26px;height:26px}
+  .prog-hook{font-size:.86rem}
+  .prog-highlights li{font-size:.8rem}
 
   .tech-item{aspect-ratio:4/3;padding:1.6rem 1.8rem 1.8rem}
   .tech-media{grid-template-columns:1fr}
