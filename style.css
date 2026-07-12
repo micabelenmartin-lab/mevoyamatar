@@ -842,24 +842,6 @@ section{padding:7rem 3rem}
 
 .prog-front .prog-flip-hint{top:1.3rem}
 
-.prog-front .prog-name{
-  font-size:3rem;margin-top:0;margin-bottom:0;
-  letter-spacing:.02em;color:var(--white);line-height:1;
-}
-.featured .prog-front .prog-name{color:var(--green)}
-.elite-card .prog-front .prog-name{color:var(--violet)}
-
-.prog-front-rule{
-  width:36px;height:2px;margin-top:.8rem;
-  background:var(--white);
-}
-.featured .prog-front-rule{background:var(--green)}
-.elite-card .prog-front-rule{background:var(--violet)}
-
-.prog-price-lockup{margin-top:1.1rem}
-.prog-front .prog-price{font-size:1.9rem;line-height:1}
-.prog-front .prog-period{font-size:.72rem;margin-top:.1rem;color:var(--muted)}
-
 .prog-front-fill{flex:1}
 
 .prog-front .prog-header-row{margin-bottom:.9rem}
@@ -867,27 +849,104 @@ section{padding:7rem 3rem}
   margin-top:0;padding:1.05rem;font-size:.76rem;letter-spacing:.16em;
 }
 
-/* ── HOOK — bajada fuerte debajo del nombre ── */
-.prog-hook{
-  font-size:.92rem;font-weight:500;line-height:1.42;
-  color:var(--white);opacity:.88;margin-top:.55rem;
+/* ── NOISE + CORNERS — detalle HUD siempre visible en el frente ── */
+.prog-noise{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 23px,rgba(255,255,255,.025) 23px,rgba(255,255,255,.025) 24px),
+                    repeating-linear-gradient(90deg,transparent,transparent 23px,rgba(255,255,255,.02) 23px,rgba(255,255,255,.02) 24px);
+}
+.prog-corner{position:absolute;width:16px;height:16px;z-index:1;opacity:.6}
+.prog-corner.tl{top:14px;left:14px;border-top:1.5px solid rgba(255,255,255,.22);border-left:1.5px solid rgba(255,255,255,.22)}
+.prog-corner.tr{top:14px;right:14px;border-top:1.5px solid rgba(255,255,255,.22);border-right:1.5px solid rgba(255,255,255,.22)}
+.featured .prog-corner{border-color:rgba(0,255,136,.35)}
+.elite-card .prog-corner{border-color:rgba(191,95,255,.35)}
+
+.prog-front-content{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;flex:1;
+  margin-top:1.6rem;
 }
 
-/* ── HIGHLIGHTS — bullets de venta en el frente, sin iconos ── */
-.prog-highlights{
-  list-style:none;display:flex;flex-direction:column;
-  gap:.5rem;margin-top:1rem;
+/* ── TELROW — línea de código estilo telemetría ── */
+.prog-telrow{
+  display:flex;align-items:center;gap:.55rem;margin-bottom:1.3rem;
 }
-.prog-highlights li{
-  font-size:.82rem;font-weight:400;line-height:1.35;color:var(--white);
-  display:flex;align-items:flex-start;gap:.5rem;
+.prog-tel-dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+  background:var(--white);animation:blink 1.2s infinite;
 }
-.prog-highlights li::before{
-  content:'✓';flex-shrink:0;font-weight:800;font-size:.78rem;
-  color:var(--white);margin-top:.05rem;
+.featured .prog-tel-dot{background:var(--green)}
+.elite-card .prog-tel-dot{background:var(--violet)}
+.prog-tel-code{
+  font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);
 }
-.featured .prog-highlights li::before{color:var(--green)}
-.elite-card .prog-highlights li::before{color:var(--violet)}
+
+/* ── TITLE — nombre grande itálico + índice numérico ── */
+.prog-title-row{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.5rem}
+.prog-title{
+  font-family:var(--ff-display);font-weight:900;font-style:italic;
+  font-size:2.7rem;text-transform:uppercase;line-height:.9;
+  letter-spacing:.01em;color:var(--white);margin:0;
+}
+.featured .prog-title{color:var(--green)}
+.elite-card .prog-title{color:var(--violet)}
+.prog-title-idx{
+  font-family:var(--ff-mono);font-size:.68rem;letter-spacing:.08em;
+  color:var(--muted);
+}
+
+.prog-hook{
+  font-size:.86rem;font-weight:400;line-height:1.45;
+  color:var(--white);opacity:.82;
+}
+
+/* ── STATS — grilla de lectura estilo dashboard ── */
+.prog-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;
+  margin-top:1.3rem;padding-top:1.1rem;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.prog-stat{
+  display:flex;flex-direction:column;gap:.2rem;
+  padding:.55rem .25rem;text-align:center;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.02);
+}
+.prog-stat-num{
+  font-family:var(--ff-display);font-weight:800;font-size:1.25rem;
+  color:var(--white);line-height:1;
+}
+.featured .prog-stat-num{color:var(--green)}
+.elite-card .prog-stat-num{color:var(--violet)}
+.prog-stat-lbl{
+  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ── READOUT — precio como lectura digital ── */
+.prog-readout{
+  margin-top:1.3rem;padding:.85rem 1rem;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.02);
+  display:flex;flex-direction:column;gap:.25rem;
+}
+.featured .prog-readout{border-color:rgba(0,255,136,.18)}
+.elite-card .prog-readout{border-color:rgba(191,95,255,.2)}
+.prog-readout-lbl{
+  font-family:var(--ff-mono);font-size:.56rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);
+}
+.prog-readout-val{
+  font-family:var(--ff-display);font-weight:900;font-size:1.9rem;
+  color:var(--white);line-height:1;
+}
+.featured .prog-readout-val{color:var(--green)}
+.elite-card .prog-readout-val{color:var(--violet)}
+.prog-readout-val small{
+  font-family:var(--ff-mono);font-size:.58rem;font-weight:400;
+  color:var(--muted);margin-left:.35rem;letter-spacing:0;
+}
 
 /* ── RIBBON — cinta diagonal "Más elegido" en PRO ── */
 .prog-ribbon{
@@ -899,6 +958,27 @@ section{padding:7rem 3rem}
   box-shadow:0 4px 14px rgba(0,255,136,.4);
   pointer-events:none;
 }
+
+/* ── CTA LIGHTS — botón estilo semáforo de largada ── */
+.prog-cta-lights{
+  display:flex;align-items:center;justify-content:center;gap:.65rem;
+}
+.prog-lights{display:flex;gap:3px}
+.prog-lights i{
+  width:6px;height:6px;border-radius:50%;display:block;
+  background:rgba(255,255,255,.22);
+  transition:background .25s ease,box-shadow .25s ease;
+}
+.prog-cta:hover .prog-lights i{background:var(--white);box-shadow:0 0 6px rgba(255,255,255,.6)}
+.prog-cta:hover .prog-lights i:nth-child(1){transition-delay:0s}
+.prog-cta:hover .prog-lights i:nth-child(2){transition-delay:.07s}
+.prog-cta:hover .prog-lights i:nth-child(3){transition-delay:.14s}
+.prog-cta:hover .prog-lights i:nth-child(4){transition-delay:.21s}
+.prog-cta:hover .prog-lights i:nth-child(5){transition-delay:.28s}
+.cta-entry:hover .prog-lights i{background:var(--white);box-shadow:0 0 6px rgba(255,255,255,.6)}
+.cta-featured .prog-lights i{background:rgba(0,0,0,.28)}
+.cta-featured:hover .prog-lights i{background:var(--black);box-shadow:0 0 6px rgba(0,0,0,.5)}
+.cta-elite:hover .prog-lights i{background:var(--violet);box-shadow:0 0 6px rgba(191,95,255,.6)}
 
 /* ── BACK ── */
 .prog-back{
@@ -1340,11 +1420,11 @@ footer{
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-cards{grid-template-columns:1fr;gap:1rem}
   .prog-front,.prog-back{padding:1.6rem 1.4rem}
-  .prog-inner{min-height:560px}
-  .prog-front .prog-name{font-size:2.4rem}
-  .prog-front .prog-price{font-size:1.6rem}
-  .prog-hook{font-size:.86rem}
-  .prog-highlights li{font-size:.8rem}
+  .prog-inner{min-height:580px}
+  .prog-title{font-size:2.3rem}
+  .prog-hook{font-size:.84rem}
+  .prog-stat-num{font-size:1.1rem}
+  .prog-readout-val{font-size:1.7rem}
 
   .tech-item{aspect-ratio:4/3;padding:1.6rem 1.8rem 1.8rem}
   .tech-media{grid-template-columns:1fr}
