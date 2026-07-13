@@ -1413,22 +1413,22 @@ footer::before{
   color:var(--muted);max-width:320px;margin-bottom:1.8rem;
 }
 
-.footer-social{display:flex;gap:.8rem}
+.footer-social{display:flex;gap:1.1rem}
 .footer-social-link{
   display:flex;align-items:center;justify-content:center;
   flex:none;
-  width:42px;height:42px;border-radius:50%;
-  background:var(--surface2);
-  border:1px solid rgba(255,255,255,.12);
+  width:auto;height:auto;border-radius:0;
+  background:none;
+  border:none;
   color:var(--muted);
-  transition:border-color .2s,color .2s,transform .2s,background .2s,box-shadow .2s;
+  transition:color .2s,transform .2s;
 }
-.footer-social-link svg{width:17px;height:17px;display:block;flex:none}
+.footer-social-link svg{width:19px;height:19px;display:block;flex:none}
 .footer-social-link:hover{
-  background:var(--green-glow);
-  border-color:var(--green);color:var(--green);
+  background:none;
+  border-color:transparent;color:var(--green);
   transform:translateY(-3px);
-  box-shadow:0 6px 18px rgba(0,255,136,.18);
+  box-shadow:none;
 }
 
 .footer-contact-line{
