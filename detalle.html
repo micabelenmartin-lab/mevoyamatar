@@ -98,8 +98,7 @@ html{ scroll-behavior: smooth; }
 .det-video-bracket.tr{ top:14px; right:14px; border-top:1.5px solid var(--prog-accent,var(--green)); border-right:1.5px solid var(--prog-accent,var(--green)); }
 .det-video-bracket.bl{ bottom:14px; left:14px; border-bottom:1.5px solid var(--violet); border-left:1.5px solid var(--violet); }
 .det-video-bracket.br{ bottom:14px; right:14px; border-bottom:1.5px solid var(--violet); border-right:1.5px solid var(--violet); }
-.det-video-mute{position:absolute;bottom:1.2rem;right:1.2rem;z-index:3;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(5,5,5,.6);backdrop-filter:blur(4px);color:var(--white);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s, transform .2s;}
-.det-video-mute:hover{border-color:var(--prog-accent, var(--green));transform:scale(1.08);}
+
 @media(max-width:900px){.det-video-section{ padding:3rem 1.5rem }.det-video-wrap{ height:min(56vh, 420px) }}
 @media(max-width:480px){.det-video-section{ padding:2rem 1.2rem }.det-video-wrap{ height:46vh }}
 
@@ -487,7 +486,6 @@ html{ scroll-behavior: smooth; }
       <div class="det-video-bracket tr"></div>
       <div class="det-video-bracket bl"></div>
       <div class="det-video-bracket br"></div>
-      <button class="det-video-mute" id="det-video-mute" type="button" aria-label="Activar sonido">🔇</button>
     </div>
   </div>
 
@@ -921,8 +919,7 @@ function initDetDash(items){
 (function(){
   const wrap = document.getElementById('det-video-wrap');
   const video = document.getElementById('det-video');
-  const muteBtn = document.getElementById('det-video-mute');
-  if(!wrap || !video || !muteBtn) return;
+  if(!wrap || !video) return;
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -930,11 +927,6 @@ function initDetDash(items){
     });
   }, { threshold: .3 });
   io.observe(wrap);
-
-  muteBtn.addEventListener('click', () => {
-    video.muted = !video.muted;
-    muteBtn.textContent = video.muted ? '🔇' : '🔊';
-  });
 })();
 
 /* ══════════════════════════════
