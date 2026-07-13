@@ -375,6 +375,32 @@ body{ overflow-x:hidden }
 }
 .bib-footer .footer-copy{ color:var(--muted) }
 
+/* ── NAV: la biblioteca tiene 11 secciones, no entran en una sola línea ── */
+@media(min-width:769px){
+  body.bib-page nav{ gap:1.2rem }
+  body.bib-page .nav-logo{ flex:0 0 auto }
+  body.bib-page .nav-links{
+    flex:1 1 auto;min-width:0;
+    display:flex;flex-wrap:nowrap;align-items:center;
+    gap:1.6rem;
+    overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:none;-ms-overflow-style:none;
+    padding:0 1.25rem;
+    mask-image:linear-gradient(to right,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%);
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%);
+  }
+  body.bib-page .nav-links::-webkit-scrollbar{ display:none }
+  body.bib-page .nav-links li{ flex:0 0 auto }
+  body.bib-page .nav-links a{
+    white-space:nowrap;
+    font-size:.68rem;letter-spacing:.1em;
+  }
+  body.bib-page .nav-cta{
+    flex:0 0 auto;white-space:nowrap;
+    font-size:.68rem;padding:.5rem 1.1rem;
+  }
+}
+
 @media(max-width:768px){
   .bib-hero{ padding:8rem 1.2rem 3.5rem }
   .bib-section{ padding:3.5rem 1.2rem }
