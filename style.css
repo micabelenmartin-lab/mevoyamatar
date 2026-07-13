@@ -1620,11 +1620,32 @@ a.footer-contact-line:hover{color:var(--white)}
 }
 .carousel-dot.active{background:var(--green);transform:scale(1.4);box-shadow:0 0 8px rgba(0,255,136,.55)}
 
+.exp-carousel-wrap,
+.prog-carousel-wrap{position:relative}
+.carousel-arrow{
+  display:none;
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:3;
+  width:2.2rem;height:2.2rem;
+  align-items:center;justify-content:center;
+  background:rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:50%;
+  color:var(--white);
+  font-size:1.3rem;line-height:1;
+  cursor:pointer;
+  transition:background .2s,border-color .2s,color .2s;
+}
+.carousel-arrow:hover{background:rgba(0,0,0,.8);border-color:var(--green);color:var(--green)}
+.exp-arrow-prev,.prog-arrow-prev{left:.5rem}
+.exp-arrow-next,.prog-arrow-next{right:.5rem}
+
 @media(max-width:768px){
   #experiencias .exp-circuits,
   #programas .prog-cards{overflow:hidden}
   .exp-carousel-dots,
   .prog-carousel-dots{display:flex}
+  .carousel-arrow{display:flex}
   .carousel-track .prog-card:hover{transform:none !important}
 }
 
