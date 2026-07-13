@@ -1707,6 +1707,85 @@ a.footer-contact-line:hover{color:var(--white)}
 }
 
 /* ══════════════════════════════
+   OFERTA DE LANZAMIENTO (POPUP)
+══════════════════════════════ */
+.offer-modal-overlay{
+  position:fixed;inset:0;background:rgba(5,5,5,.88);
+  backdrop-filter:blur(8px);z-index:9500;
+  display:flex;align-items:center;justify-content:center;padding:2rem;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.offer-modal-overlay.open{ opacity:1;pointer-events:all }
+.offer-modal{
+  background:var(--black);border:1px solid rgba(0,255,136,.25);
+  box-shadow:0 0 60px rgba(0,255,136,.15);
+  padding:3rem;width:100%;max-width:480px;position:relative;
+  text-align:center;
+  transform:translateY(20px);transition:transform .3s ease;
+  max-height:90vh;overflow-y:auto;
+}
+.offer-modal-overlay.open .offer-modal{ transform:translateY(0) }
+.offer-modal-close{
+  position:absolute;top:1.2rem;right:1.5rem;
+  background:none;border:none;font-family:var(--ff-mono);
+  font-size:.9rem;color:var(--muted);cursor:pointer;transition:color .2s;
+}
+.offer-modal-close:hover{ color:var(--white) }
+.offer-badge{
+  display:inline-block;font-family:var(--ff-mono);font-size:.6rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--green);
+  border:1px solid rgba(0,255,136,.3);border-radius:999px;
+  padding:.5rem 1.1rem;margin-bottom:1.5rem;
+}
+.offer-title{
+  font-family:var(--ff-display);font-weight:900;font-style:italic;
+  text-transform:uppercase;color:var(--white);line-height:.95;
+  margin-bottom:1rem;font-size:2rem;
+}
+.offer-title-num{
+  font-size:3.4rem;color:var(--green);display:inline-block;margin-right:.3rem;
+}
+.offer-title-sub{
+  display:block;font-size:1.1rem;color:var(--muted);font-weight:400;font-style:normal;
+  margin-top:.3rem;
+}
+.offer-desc{
+  font-family:var(--ff-body);font-size:.92rem;color:var(--muted);
+  line-height:1.6;margin-bottom:2rem;
+}
+.offer-timer{
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  margin-bottom:2rem;
+}
+.offer-timer-unit{
+  display:flex;flex-direction:column;align-items:center;gap:.2rem;
+  background:var(--surface);border:1px solid rgba(191,95,255,.2);
+  border-radius:6px;padding:.6rem .8rem;min-width:56px;
+}
+.offer-timer-num{
+  font-family:var(--ff-mono);font-size:1.3rem;color:var(--violet);
+}
+.offer-timer-lbl{
+  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);
+}
+.offer-timer-colon{
+  font-family:var(--ff-mono);font-size:1.2rem;color:var(--muted);
+}
+.offer-cta{ width:100%;justify-content:center;margin-bottom:1rem }
+.offer-code{
+  font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.05em;
+  color:var(--muted);
+}
+.offer-code strong{ color:var(--green) }
+
+@media(max-width:640px){
+  .offer-modal{ padding:2.2rem 1.5rem }
+  .offer-title-num{ font-size:2.6rem }
+  .offer-timer-unit{ min-width:46px;padding:.5rem .5rem }
+}
+
+/* ══════════════════════════════
    MODAL DE RESERVA (home)
 ══════════════════════════════ */
 .res-modal-overlay{
