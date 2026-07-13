@@ -1104,6 +1104,12 @@ section{padding:7rem 3rem}
   pointer-events:none;
   z-index:0;
 }
+#tecnologia::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(0,255,136,.05) 27px,rgba(0,255,136,.05) 28px),
+    repeating-linear-gradient(90deg,transparent,transparent 27px,rgba(0,255,136,.04) 27px,rgba(0,255,136,.04) 28px);
+}
 #tecnologia > *{position:relative;z-index:1;}
 
 /* Subtítulo de tecnología: 2 puntos más grande que .sec-sub base (.9rem → 1.1rem) */
