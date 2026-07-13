@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ══════════════════════════════
      CARRUSEL GENÉRICO
   ══════════════════════════════ */
-  function initCarousel(track, dotsContainer) {
+  function initCarousel(track, dotsContainer, prevBtn, nextBtn) {
     if (!track) return;
     const items = Array.from(track.children);
     let current = 0, startX = 0, isDragging = false, dragOffset = 0;
@@ -275,6 +275,9 @@ document.addEventListener('DOMContentLoaded', () => {
       track.style.transform  = `translateX(calc(-${current * 100}% - ${current}px))`;
       updateDots();
     }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
 
     track.addEventListener('touchstart', e => {
       startX = e.touches[0].clientX; isDragging = true;
@@ -342,8 +345,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── TECH CAROUSEL: una tarjeta grande a la vez, en todos los tamaños ── */
   const techTrack = document.querySelector('.tech-track');
   const techDots  = document.querySelector('.tech-carousel-dots');
+  const techPrev  = document.querySelector('.tech-arrow-prev');
+  const techNext  = document.querySelector('.tech-arrow-next');
   if (techTrack && !techTrack.dataset.carouselInit) {
-    initCarousel(techTrack, techDots);
+    initCarousel(techTrack, techDots, techPrev, techNext);
     techTrack.dataset.carouselInit = 'true';
   }
 /*═══════════════════════════════
