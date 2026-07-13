@@ -225,9 +225,9 @@ html{ scroll-behavior:smooth; }
 .det-title-row{
   display:flex;
   align-items:flex-end;
-  gap:2rem;
+  gap:1.5rem;
   flex-wrap:wrap;
-  margin-bottom:.6rem;
+  margin-bottom:1.4rem;
 }
 
 /* Botón de inscripción junto al título */
@@ -296,17 +296,20 @@ html{ scroll-behavior:smooth; }
 .det-price{
   font-family:var(--ff-display);
   font-weight:800;
-  font-size:clamp(3.5rem,6vw,5rem);
+  font-size:clamp(2.1rem,3.4vw,3rem);
   color:var(--prog-accent, var(--green));
   line-height:1;
-  margin-bottom:1.6rem;
-  display:inline-block;
+  margin:0;
+  display:flex;
+  align-items:flex-end;
+  padding-bottom:.6rem;
+  white-space:nowrap;
 }
 
 /* Bloque de info debajo del título+precio: período, nota y CTAs */
 .det-info-below{
-  margin-top:0;
-  padding-top:1rem;
+  margin-top:-1rem;
+  padding-top:.6rem;
   border-top:1px solid #161616;
 }
 /* CTAs */
@@ -1087,10 +1090,10 @@ html{ scroll-behavior:smooth; }
         <span id="det-badge-text"></span>
       </div>
       <span class="det-title-pre">PROGRAMA</span>
-      <div class="det-title-row">
-        <h1 class="det-title" id="det-title"></h1>
-      </div>
-      <div class="det-price" id="det-price"></div>
+     <div class="det-title-row">
+    <h1 class="det-title" id="det-title"></h1>
+    <div class="det-price" id="det-price"></div>
+</div>
       <p class="det-tagline" id="det-tagline"></p>
 
       <div class="det-info-below">
