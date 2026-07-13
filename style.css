@@ -1533,6 +1533,29 @@ footer{
 }
 .sim-hint::after{content:'';width:20px;height:1px;background:rgba(0,255,136,.4);display:inline-block}
 
+/* Desktop/laptop: la imagen se limita al alto de pantalla disponible
+   para que entre completa sin tener que scrollear "adentro" de ella */
+@media(min-width:769px){
+  .sim-reveal-wrap{
+    height:82vh;
+    max-height:820px;
+    min-height:420px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .sim-img-stack{ height:100%; }
+  .sim-base-img,
+  .sim-alt-img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+}
+
 @media(max-width:768px){
   #simulador{padding:5rem 0 0}
   .sim-header{padding:0 1.5rem;margin-bottom:2.5rem}
