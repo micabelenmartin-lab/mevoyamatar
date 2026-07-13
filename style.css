@@ -1494,7 +1494,6 @@ footer{
   cursor:pointer;user-select:none;
   border-top:1px solid #111;border-bottom:1px solid #111;
   background:var(--black);
-  min-height:300px;
 }
 .sim-img-stack{
   position:relative;
