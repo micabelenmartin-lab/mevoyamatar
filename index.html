@@ -233,8 +233,42 @@
     <div class="apex-line-label">// La línea ideal</div>
   </div>
 
+  <div class="circuit-selector reveal d1" id="circuit-selector">
+    <div class="cs-dial-wrap" id="cs-dial-wrap" role="slider" tabindex="0"
+         aria-label="Seleccionar módulo de circuito" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1">
+      <svg class="cs-dial" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="94" class="cs-ring-outer"/>
+        <circle cx="100" cy="100" r="74" class="cs-ring-inner"/>
+        <g class="cs-ticks">
+          <g class="cs-tick-group" data-idx="0" data-angle="-42">
+            <line class="cs-tick" x1="100" y1="10" x2="100" y2="26"/>
+          </g>
+          <g class="cs-tick-group" data-idx="1" data-angle="0">
+            <line class="cs-tick" x1="100" y1="10" x2="100" y2="26"/>
+          </g>
+          <g class="cs-tick-group" data-idx="2" data-angle="42">
+            <line class="cs-tick" x1="100" y1="10" x2="100" y2="26"/>
+          </g>
+        </g>
+        <g class="cs-needle-group" id="cs-needle-group">
+          <line class="cs-needle" x1="100" y1="100" x2="100" y2="24"/>
+          <polygon class="cs-needle-tip" points="100,16 94,30 106,30"/>
+        </g>
+        <circle cx="100" cy="100" r="10" class="cs-hub"/>
+      </svg>
+      <div class="cs-dial-num" id="cs-dial-num">01</div>
+    </div>
+
+    <div class="cs-readout">
+      <div class="cs-readout-eyebrow">// Módulo seleccionado</div>
+      <div class="cs-readout-name" id="cs-readout-name">Trazada Perfecta</div>
+      <div class="cs-readout-tag" id="cs-readout-tag">Precisión</div>
+      <div class="cs-readout-hint">Arrastrá la perilla o tocá los puntos</div>
+    </div>
+  </div>
+
   <div class="exp-circuits reveal d1">
-    <div class="exp-circuit" role="button" tabindex="0" aria-label="Ver detalle: Trazada Perfecta">
+    <div class="exp-circuit" data-idx="0" role="button" tabindex="0" aria-label="Ver detalle: Trazada Perfecta">
       <div class="exp-circuit-inner">
 
         <div class="exp-circuit-front">
@@ -267,7 +301,7 @@
       </div>
     </div>
 
-    <div class="exp-circuit" role="button" tabindex="0" aria-label="Ver detalle: Gestión de Neumáticos">
+    <div class="exp-circuit" data-idx="1" role="button" tabindex="0" aria-label="Ver detalle: Gestión de Neumáticos">
       <div class="exp-circuit-inner">
 
         <div class="exp-circuit-front">
@@ -301,7 +335,7 @@
       </div>
     </div>
 
-    <div class="exp-circuit" role="button" tabindex="0" aria-label="Ver detalle: Carrera Bajo Presión">
+    <div class="exp-circuit" data-idx="2" role="button" tabindex="0" aria-label="Ver detalle: Carrera Bajo Presión">
       <div class="exp-circuit-inner">
 
         <div class="exp-circuit-front">
