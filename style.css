@@ -1655,6 +1655,23 @@ a.footer-contact-line:hover{color:var(--white)}
   .exp-circuit-front,.exp-circuit-back,
   .prog-front,.prog-back{overflow:visible}
   .exp-circuit-inner,.prog-inner{-webkit-transform:translateZ(0);transform:translateZ(0)}
+
+  /* backface-visibility:hidden solo no alcanza en algunos webviews mobile
+     (ej. navegador interno de WhatsApp/Instagram) cuando la carta está
+     dentro de un ancestro (.carousel-track) que también tiene su propio
+     transform: se rompe el ocultamiento de la cara trasera y se ve el
+     texto espejado superpuesto. Reforzamos con visibility, sincronizado
+     al punto medio del giro (.375s de .75s) para que el cambio de cara
+     ocurra cuando la carta está de canto y no se note el corte. */
+  .exp-circuit-front,.exp-circuit-back,
+  .prog-front,.prog-back{
+    transition:visibility 0s linear .375s;
+  }
+  .exp-circuit-back,.prog-back{visibility:hidden}
+  .exp-circuit.flipped .exp-circuit-back,
+  .prog-card.flipped .prog-back{visibility:visible}
+  .exp-circuit.flipped .exp-circuit-front,
+  .prog-card.flipped .prog-front{visibility:hidden}
 }
 
 /* ══════════════════════════════
